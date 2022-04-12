@@ -1,0 +1,173 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+{% load static %}
+
+<html class="no-js" lang="en">
+<head>
+  <title> ICT | Requisition Form</title>
+</head>
+<body>
+
+    <!-- Main Body Div -->
+  <div class="card shadow mb-4">
+    
+    <!-- header -->
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary"><i class='fas fa-file-alt'></i> Requisition Form</h6>
+    </div>
+
+     <!-- Form Body start -->
+    <div class="card-body">
+      <form method="POST" action="/ict/requisition-form"data-toggle="validator" class="needs-validation" novalidate>
+            {% csrf_token %}
+        <div class="form-group col-md-auto">
+          <label id="name-label" for="name"><strong>Requestor: </strong></label>
+            
+            {% if user.is_authenticated %}
+              {{user.first_name}} {{user.last_name}}    
+            {% endif %} &nbsp;
+             
+          <label id="Department-label" for="department"><strong>Department: </strong></label>
+            {% if user.is_authenticated %}
+              {{user.department.department}} {{user.departmentdepartment}}
+            {% endif %}
+        </div>
+                
+
+        <div class="form-group col-md-3">
+          <label for="preferences"><strong>Requested Date & Time:</strong><br></label> 
+          <input type="datetime-local" id="meeting-time" name="date" required>
+          <div class="valid-feedback">Looks good! </div>
+          <div class="invalid-feedback">Please Choose a date & time</div>
+        </div>                                    
+
+        <div class="form-group col-md-auto">
+
+          <div class="labels">
+            <label for="preferences"><strong>Service Requested:</strong><br><i>(Check all if applicable): </i></label>
+          </div>
+
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="New User">
+            <label class="form-check-label" for="inlineCheckbox1">New User</label>
+          </div>
+
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="Email">
+            <label class="form-check-label" for="inlineCheckbox2">Email</label>
+          </div>
+          
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="Internet">
+            <label class="form-check-label" for="inlineCheckbox3">Internet</label>
+          </div>
+
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox4" value="New Computer">
+            <label class="form-check-label" for="inlineCheckbox4">New Computer</label>
+          </div>
+                  
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox5" value="New Phone">
+            <label class="form-check-label" for="inlineCheckbox5">New Phone</label>
+          </div>
+
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox6" value="New Printer">
+            <label class="form-check-label" for="inlineCheckbox6">New Printer</label>
+          </div>
+                  
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox7" value="ICT Conference room">
+            <label class="form-check-label" for="inlineCheckbox7">ICT Conference room</label>
+          </div>
+
+        </div>                
+        
+        <div class="form-group col-md-auto">
+          <textarea  class="form-control" style="display:none" id="service_requested" name="service_requested" required> </textarea>
+        </div>
+
+        <div class="form-group col-md-auto">
+          <label for="other_service" class="form-label"><strong>Other Services:</strong></label>
+          <textarea class="form-control" id="other_service" rows="1" name="other_service"></textarea>
+        </div>
+
+        <div class="form-group col-md-auto">
+          <label for="reason_for_request" class="form-label"><strong>Reason for request:</strong></label>
+          <textarea class="form-control" id="reason_for_request" rows="1" name="reason_for_request" required></textarea>
+          <div class="valid-feedback">Looks good! </div>
+          <div class="invalid-feedback">Please Enter reason for request</div>
+        </div>
+        
+               
+        <div class="form-group ">
+          <button type="submit" class="btn btn-primary btn-block">Submit</button>
+        </div>
+            
+      </form>
+      <!-- Form Body end -->
+    </div>
+  </div>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<script>
+  
+$(document).ready(function(){
+  $("form").submit(function(){
+    if ($('input:checkbox').filter(':checked').length < 1){
+      swal({
+        title: "Error!",
+        text: "Please Check at least one Check Box!",
+        icon: "info",
+        button: "OK",
+      });
+      return false;
+    }
+  });
+}); 
+
+(function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+
+$(document).ready(function(){
+  $('.form-check-input').click(function()
+    {
+      var txt="";
+      $('.form-check-input:checked').each(function()
+      {
+        txt+=$(this).val()+", "
+      });
+      $('#service_requested').val(txt);
+    });
+});
+
+
+
+
+
+
+</script>
+</html>
+{% endblock %}
