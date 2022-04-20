@@ -128,10 +128,10 @@
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th width="15%">Form Name</th>
-                        <th width="15%">Service Requested</th>
+                        <th width="5%">Form Name</th>
+                        <th width="10%">Service Requested</th>
                         <th width="75%">Comments</th>
-                        <th width="10%">More Details</th>
+                        <th width="9%">More Details</th>
                         <th width="10%">Status</th>
                     </tr>
                 </thead>
@@ -140,9 +140,17 @@
                     {% for requisitionform in requisitionforms %}
                     <tr>
                         <td>{{requisitionform.form_name}} </td>
-                        <td>{{requisitionform.service_requested}} </td>
-                        <td></td>
-                        <td>Click here </td>
+                        <td><i>{{requisitionform.service_requested}} </i>
+                            <br/> 
+                            {{requisitionform.other_service}}
+                        </td>
+                        <td>{{requisitionform.department}} Director: {{requisitionform.resp_dir_comments}}
+                            <br/>
+                            DSS Director: {{requisitionform.dss_director_comments}}
+                            <br/>
+                            Manager ICT: {{requisitionform.mangaer_ict_comments}}
+                        </td>
+                        <td><button type="button" class="btn btn-info btn-sm">Click here</button></td>
 
                         <td>{% if requisitionform.resp_dir_descision == "Pending" %}
                             <span class="badge badge-warning">Pending</span>

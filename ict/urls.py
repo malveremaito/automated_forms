@@ -3,7 +3,9 @@ from . import views
 
 urlpatterns = [
     path('forms', views.ict_homepage, name='forms'),
-    path('requisition-form', views.ictrequisitionform, name='ict-requisition-form'),
+    path('view-requisition-form', views.viewrequisitionform, name='view-requisition-form'),
     path('', views.userdashboard, name='ict-home'),
-    path('managerdashboard', views.managerdashboard, name='manager-dashboard')
+    path('managerdashboard', views.managerdashboard, name='manager-dashboard'),
+    path('insert-requisition-form', views.insertrequisitionform, name='insert-requisition-form'),
+    
 ]

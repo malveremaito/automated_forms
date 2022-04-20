@@ -19,7 +19,7 @@
 
      <!-- Form Body start -->
     <div class="card-body">
-      <form method="POST" action="/ict/requisition-form"data-toggle="validator" class="needs-validation" novalidate>
+      <form method="POST" id ="insertrequisitionform"data-toggle="validator" class="needs-validation" novalidate>
             {% csrf_token %}
         <div class="form-group col-md-auto">
           <label id="name-label" for="name"><strong>Requestor: </strong></label>
@@ -37,7 +37,7 @@
 
         <div class="form-group col-md-3">
           <label for="preferences"><strong>Requested Date & Time:</strong><br></label> 
-          <input type="datetime-local" id="meeting-time" name="date" required>
+          <input type="datetime-local" id="date" name="date" required>
           <div class="valid-feedback">Looks good! </div>
           <div class="invalid-feedback">Please Choose a date & time</div>
         </div>                                    
@@ -49,38 +49,43 @@
           </div>
 
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="New User">
-            <label class="form-check-label" for="inlineCheckbox1">New User</label>
+            <input class="form-check-input" type="checkbox" id="New User" value="New User">
+            <label class="form-check-label" for="New User">New User</label>
           </div>
 
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="Email">
-            <label class="form-check-label" for="inlineCheckbox2">Email</label>
+            <input class="form-check-input" type="checkbox" id="Email" value="Email">
+            <label class="form-check-label" for="Email">Email</label>
           </div>
           
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="Internet">
-            <label class="form-check-label" for="inlineCheckbox3">Internet</label>
+            <input class="form-check-input" type="checkbox" id="Internet" value="Internet">
+            <label class="form-check-label" for="Internet">Internet</label>
           </div>
 
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="inlineCheckbox4" value="New Computer">
-            <label class="form-check-label" for="inlineCheckbox4">New Computer</label>
+            <input class="form-check-input" type="checkbox" id="New Computer" value="New Computer">
+            <label class="form-check-label" for="New Computer">New Computer</label>
           </div>
                   
           <div class="form-check form-check-inline">
             <input class="form-check-input" type="checkbox" id="inlineCheckbox5" value="New Phone">
-            <label class="form-check-label" for="inlineCheckbox5">New Phone</label>
+            <label class="form-check-label" for="New Phone">New Phone</label>
           </div>
 
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="inlineCheckbox6" value="New Printer">
-            <label class="form-check-label" for="inlineCheckbox6">New Printer</label>
+            <input class="form-check-input" type="checkbox" id="New Printer" value="New Printer">
+            <label class="form-check-label" for="New Printer">New Printer</label>
           </div>
                   
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="inlineCheckbox7" value="ICT Conference room">
-            <label class="form-check-label" for="inlineCheckbox7">ICT Conference room</label>
+            <input class="form-check-input" type="checkbox" id="ICT Conference room" value="ICT Conference room">
+            <label class="form-check-label" for="ICT Conference room">ICT Conference room</label>
+          </div>
+
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="Other" value="Other">
+            <label class="form-check-label" for="Other">Other</label>
           </div>
 
         </div>                
@@ -103,7 +108,7 @@
         
                
         <div class="form-group ">
-          <button type="submit" class="btn btn-primary btn-block">Submit</button>
+          <button type="submit" id = "submit" class="btn btn-primary btn-block">Submit</button>
         </div>
             
       </form>
@@ -112,61 +117,84 @@
   </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
+<script src="{% static 'css/js/sweetalert.min.js' %}"></script>
 <script>
+
+  
+
+  
+
+  
+  $(document).ready(function(){
+    $('.form-check-input').click(function()
+      {
+        var txt="";
+        $('.form-check-input:checked').each(function()
+        {
+          txt+=$(this).val()+", "
+        });
+        $('#service_requested').val(txt);
+      });
+  });
   
 $(document).ready(function(){
-  $("form").submit(function(){
-    if ($('input:checkbox').filter(':checked').length < 1){
-      swal({
-        title: "Error!",
-        text: "Please Check at least one Check Box!",
-        icon: "info",
-        button: "OK",
-      });
-      return false;
-    }
-  });
-}); 
-
-(function () {
-  'use strict'
-
-  // Fetch all the forms we want to apply custom Bootstrap validation styles to
-  var forms = document.querySelectorAll('.needs-validation')
-
-  // Loop over them and prevent submission
-  Array.prototype.slice.call(forms)
-    .forEach(function (form) {
-      form.addEventListener('submit', function (event) {
-        if (!form.checkValidity()) {
+    $('#submit').on('click', function(){
+        $date = $('#date').val();
+        $service_requested = $('#service_requested').val();
+        $other_service = $('#other_service').val();
+        $reason_for_request = $('#reason_for_request').val();
+ 
+        if($date == "" || $service_requested == "" || $reason_for_request == ""){
           event.preventDefault()
-          event.stopPropagation()
+          swal({
+            title: "Error!",
+            text: "Please complete the form!",
+            icon: "error",
+            
+          });
+        }else if ($('input:checkbox').filter(':checked').length < 1){
+          event.preventDefault()
+          swal({
+            title: "Error!",
+            text: "Please select atleast one service!",
+            icon: "error",
+            
+          });
+        }else{
+            $.ajax({
+                type: "POST",
+                url: "{% url 'insert-requisition-form' %}",
+                data:{
+                    date: $date,
+                    service_requested: $service_requested,
+                    other_service: $other_service,
+                    reason_for_request: $reason_for_request,
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                },
+                success: function(){
+                  event.preventDefault()
+                  swal("Done!", ", Form Submitted!", "success");
+                    event.preventDefault()
+                    $('#date').val('');
+                    $('#service_requested').val('');
+                    $('#other_service').val('');
+                    $('#reason_for_request').val('');
+                    event.preventDefault()
+                    window.location = "{% url 'ict-home' %}";
+                    event.preventDefault()
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                  event.preventDefault()
+                  swal("Error!", "Please try again", "error");
+              }
+            });
         }
-
-        form.classList.add('was-validated')
-      }, false)
-    })
-})()
-
-$(document).ready(function(){
-  $('.form-check-input').click(function()
-    {
-      var txt="";
-      $('.form-check-input:checked').each(function()
-      {
-        txt+=$(this).val()+", "
-      });
-      $('#service_requested').val(txt);
     });
 });
-
-
-
-
-
+ 
+    
 
 </script>
 </html>

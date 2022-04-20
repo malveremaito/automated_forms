@@ -13,24 +13,18 @@ def ict_homepage(request):
     return render(request,"home/forms.html")
 
 @login_required
-def ictrequisitionform(request):
-    if request.method =="POST":
-        
-            data = RequisitionForm()
-            data.user=request.user;
-            data.department=request.user.department;
-            data.date=request.POST.get('date')
-            data.service_requested=request.POST.get('service_requested')
-            data.other_service=request.POST.get('other_service')
-            data.reason_for_request=request.POST.get('reason_for_request')
-            
-        
-            data.save()
-        
-            messages.success(request, 'Form Submitted Successfully ')
-            return redirect("ict-home")  
-    else:
-        return render(request,"ict_requisition_form/ict-requisition-form.html")
+def viewrequisitionform(request):
+
+    return render(request,"ict_requisition_form/ict-requisition-form.html")
+
+@login_required   
+def insertrequisitionform(request):
+    data = RequisitionForm(user=request.user, department=request.user.department, date=request.POST['date'], service_requested=request.POST['service_requested'], other_service=request.POST['other_service'],reason_for_request=request.POST['reason_for_request'])
+    data.save()
+    return redirect('/')
+
+
+
 
 @login_required
 def userdashboard(request):
