@@ -57,12 +57,12 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#ict"
+                    aria-expanded="true" aria-controls="ict">
                     <i class="fas fa-fw fa-desktop"></i>
                     <span>ICT</span>
                 </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="ict" class="collapse" aria-labelledby="ict" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">ICT Components:</h6>
                         <a class="collapse-item" href="{% url 'ict-home' %}">Dashboard</a>
@@ -73,14 +73,30 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
-                    aria-expanded="true" aria-controls="collapseThree">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#DSS"
+                    aria-expanded="true" aria-controls="DSS">
                     <i class="fas fa-fw fa-desktop"></i>
                     <span>DSS</span>
                 </a>
-                <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="DSS" class="collapse" aria-labelledby="DSS" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">DSS Components:</h6>
+                        <a class="collapse-item" href="{% url 'ict-home' %}">Dashboard</a>
+                        <a class="collapse-item" href="{% url 'forms' %}">Forms</a>
+                        <a class="collapse-item" href="{% url 'manager-dashboard' %}">Approval</a>
+                    </div>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#FMD"
+                    aria-expanded="true" aria-controls="FMD">
+                    <i class="fas fa-fw fa-desktop"></i>
+                    <span>FMD</span>
+                </a>
+                <div id="FMD" class="collapse" aria-labelledby="FMD" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">FMD Components:</h6>
                         <a class="collapse-item" href="{% url 'ict-home' %}">Dashboard</a>
                         <a class="collapse-item" href="{% url 'forms' %}">Forms</a>
                         <a class="collapse-item" href="{% url 'manager-dashboard' %}">Approval</a>
