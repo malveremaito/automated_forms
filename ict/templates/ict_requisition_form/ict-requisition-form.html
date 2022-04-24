@@ -181,9 +181,9 @@ $(document).ready(function(){
                     $('#service_requested').val('');
                     $('#other_service').val('');
                     $('#reason_for_request').val('');
-                    event.preventDefault()
+                   
                     window.location = "{% url 'ict-home' %}";
-                    event.preventDefault()
+                   
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                   event.preventDefault()
