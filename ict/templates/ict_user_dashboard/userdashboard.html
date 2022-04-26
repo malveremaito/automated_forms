@@ -107,17 +107,15 @@
             </div>
             <div class="row">
                 {% if messages %}
-								{% for messages in messages %}
-								
-								<div class="alert alert-light alert-dismissible fade show" role="alert">
-									{{messages}}
-									<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-									  <span aria-hidden="true">&times;</span>
-									</button>
-								  </div>
-								{% endfor  %}
-								{% endif %}
-            </div>
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                      </div>
+                    {% endfor %}
+                {% endif %}
 
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
@@ -131,7 +129,7 @@
                         <th width="5%">Form Name</th>
                         <th width="10%">Service Requested</th>
                         <th width="75%">Comments</th>
-                        <th width="9%">More Details</th>
+                        <th width="5%">Actions</th>
                         <th width="10%">Status</th>
                     </tr>
                 </thead>
@@ -139,7 +137,7 @@
                 <tbody>
                     {% for requisitionform in requisitionforms %}
                     <tr>
-                        <td>{{requisitionform.form_name}} </td>
+                        <td>{{requisitionform.created_at}} </td>
                         <td><i>{{requisitionform.service_requested}} </i>
                             <br/> 
                             {{requisitionform.other_service}}
@@ -150,21 +148,27 @@
                             <br/>
                             Manager ICT: {{requisitionform.mangaer_ict_comments}}
                         </td>
-                        <td><button type="button" class="btn btn-info btn-sm">Click here</button></td>
+                        <td><!-- Button trigger modal -->
+                         
+                            <a href="{% url 'reqform.view' requisitionform.id %}" class="btn btn-primary btn-sm">More <i class="fa fa-eye" aria-hidden="true"></i></a>
+                            
+                            <!-- Modal -->
+            
+                        </td>
 
-                        <td>{% if requisitionform.resp_dir_descision == "Pending" %}
+                        <td>{% if requisitionform.resp_dir_decision == "Pending" %}
                             <span class="badge badge-warning">Pending</span>
-                            {% elif requisitionform.resp_dir_descision == "Disapproved"  %}
+                            {% elif requisitionform.resp_dir_decision == "Disapproved"  %}
                             <span class="badge badge-danger">Disapproved</span>
 
-                            {% elif requisitionform.dss_director_descision == "Pending"  %}
+                            {% elif requisitionform.dss_director_decision == "Pending"  %}
                             <span class="badge badge-warning">Pending</span>
-                            {% elif requisitionform.dss_director_descision == "Disapproved"  %}
+                            {% elif requisitionform.dss_director_decision == "Disapproved"  %}
                             <span class="badge badge-danger">Pending</span>
 
-                            {% elif requisitionform.mangaer_ict_descision == "Pending"  %}
+                            {% elif requisitionform.mangaer_ict_decision == "Pending"  %}
                             <span class="badge badge-warning">Pending</span>
-                            {% elif requisitionform.mangaer_ict_descision == "Disapproved"  %}
+                            {% elif requisitionform.mangaer_ict_decision == "Disapproved"  %}
                             <span class="badge badge-danger">Pending</span>
 
                             {%else%}
@@ -190,5 +194,10 @@
                 $(document).ready(function() {
                     $('#dataTable').DataTable();
                 } );
+                $('.building-link').click(function(){
+                    $('#building-name').html($(this).data('name'));
+                    $('#building-description').html($(this).data('description'));
+                    $('#building-img').src($(this).data('img'));
+                });
         </script>
 {% endblock %}

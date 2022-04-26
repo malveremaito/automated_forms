@@ -10,22 +10,24 @@ class RequisitionForm(models.Model):
         default='Requisition Form',choices=[('Requisition Form','Requisition Form')]
         )
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
-    date = models.DateTimeField()
+    date = models.DateField()
+    start_time = models.TimeField()
+    end_time = models.TimeField(null=True, blank=True)
     service_requested = models.TextField()
     other_service = models.TextField(null=True, blank=True)
     reason_for_request = models.TextField()
-    resp_dir_descision= models.CharField(
+    resp_dir_decision= models.CharField(
         max_length=11,
         default='Pending',
         choices=[('Approved','Approved'),('Disapproved','Disapproved'),('Pending','Pending')]
     )
     resp_dir_comments = models.TextField(null=True, blank=True)
-    dss_director_descision = models.CharField(
+    dss_director_decision = models.CharField(
             max_length=11,
             default='Pending',
             choices=[('Approved','Approved'),('Disapproved','Disapproved'),('Pending','Pending')])
     dss_director_comments = models.TextField(null=True, blank=True)
-    mangaer_ict_descision = models.CharField(
+    manager_ict_decision = models.CharField(
             max_length=11,
             default='Pending',
             choices=[('Approved','Approved'),('Disapproved','Disapproved'),('Pending','Pending')])

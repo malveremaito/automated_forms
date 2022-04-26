@@ -11,7 +11,17 @@
 
     <!-- Main Body Div -->
   <div class="card shadow mb-4">
-    
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}" role="alert">
+      
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    {% endfor %}
+{% endif %}
     <!-- header -->
     <div class="card-header py-3">
       <h6 class="m-0 font-weight-bold text-primary"><i class='fas fa-file-alt'></i> Requisition Form</h6>
@@ -19,7 +29,7 @@
 
      <!-- Form Body start -->
     <div class="card-body">
-      <form method="POST" id ="insertrequisitionform"data-toggle="validator" class="needs-validation" novalidate>
+      <form method="POST" action="{% url 'insert-requisition-form'%}" id ="insertrequisitionform"data-toggle="validator" class="needs-validation" novalidate>
             {% csrf_token %}
         <div class="form-group col-md-auto">
           <label id="name-label" for="name"><strong>Requestor: </strong></label>
@@ -33,19 +43,35 @@
               {{user.department.department}} {{user.departmentdepartment}}
             {% endif %}
         </div>
-                
+        <div class="form-group col-md-9">
+          <label for="preferences"><strong>Requested Date & Time for ICT Service </strong></label> 
+        </div>
 
-        <div class="form-group col-md-3">
-          <label for="preferences"><strong>Requested Date & Time:</strong><br></label> 
-          <input type="datetime-local" id="date" name="date" required>
+        <div class="form-group col-md-9">
+          <label for="date"><strong>Date: </strong></label> 
+          <input type="date" id="date" name="date" required>
           <div class="valid-feedback">Looks good! </div>
-          <div class="invalid-feedback">Please Choose a date & time</div>
-        </div>                                    
+          <div class="invalid-feedback">Please Choose a date</div>
+         
+       
+       
+       
+          <label for="start_time"><strong> Start Time: </strong><br></label> 
+          <input type="time" id="start_time" name="start_time" required>
+          <div class="valid-feedback">Looks good! </div>
+          <div class="invalid-feedback">Please Choose a date</div>
+
+      
+
+       
+          <label for="end_time"><strong> End Time: </strong><br></label> 
+          <input type="time" id="end_time" name="end_time">
+          <div class="valid-feedback">Looks good! </div>
 
         <div class="form-group col-md-auto">
 
           <div class="labels">
-            <label for="preferences"><strong>Service Requested:</strong><br><i>(Check all if applicable): </i></label>
+            <label for="service_requested"><strong>Service Requested:</strong><br><i>(Check all if applicable): </i></label>
           </div>
 
           <div class="form-check form-check-inline">
@@ -121,81 +147,18 @@
 
 <script src="{% static 'css/js/sweetalert.min.js' %}"></script>
 <script>
-
-  
-
-  
-
-  
-  $(document).ready(function(){
-    $('.form-check-input').click(function()
-      {
-        var txt="";
-        $('.form-check-input:checked').each(function()
-        {
-          txt+=$(this).val()+", "
-        });
-        $('#service_requested').val(txt);
-      });
-  });
-  
 $(document).ready(function(){
-    $('#submit').on('click', function(){
-        $date = $('#date').val();
-        $service_requested = $('#service_requested').val();
-        $other_service = $('#other_service').val();
-        $reason_for_request = $('#reason_for_request').val();
- 
-        if($date == "" || $service_requested == "" || $reason_for_request == ""){
-          event.preventDefault()
-          swal({
-            title: "Error!",
-            text: "Please complete the form!",
-            icon: "error",
-            
-          });
-        }else if ($('input:checkbox').filter(':checked').length < 1){
-          event.preventDefault()
-          swal({
-            title: "Error!",
-            text: "Please select atleast one service!",
-            icon: "error",
-            
-          });
-        }else{
-            $.ajax({
-                type: "POST",
-                url: "{% url 'insert-requisition-form' %}",
-                data:{
-                    date: $date,
-                    service_requested: $service_requested,
-                    other_service: $other_service,
-                    reason_for_request: $reason_for_request,
-                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
-                },
-                success: function(){
-                  event.preventDefault()
-                  swal("Done!", ", Form Submitted!", "success");
-                    event.preventDefault()
-                    $('#date').val('');
-                    $('#service_requested').val('');
-                    $('#other_service').val('');
-                    $('#reason_for_request').val('');
-                   
-                    window.location = "{% url 'ict-home' %}";
-                   
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                  event.preventDefault()
-                  swal("Error!", "Please try again", "error");
-              }
-            });
-        }
+  $('.form-check-input').click(function()
+    {
+    var txt="";
+    $('.form-check-input:checked').each(function()
+    {
+      txt+=$(this).val()+", "
     });
+    $('#service_requested').val(txt);
+   });
 });
- 
-    
-
+  
 </script>
 </html>
 {% endblock %}
