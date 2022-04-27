@@ -7,6 +7,7 @@ urlpatterns = [
     path('', views.userdashboard, name='ict-home'),
     path('managerdashboard', views.managerdashboard, name='manager-dashboard'),
     path('insert-requisition-form', views.insertrequisitionform, name='insert-requisition-form'),
-    path('viewregform/<int:id>', views.ictrequisitionformmodalview, name='reqform.view'),
+    path('view-more-requisition-form/<int:id>', views.viewmorequisitionform, name='view.more.requisitionform'),
+    path('view-more-requisition-form-manager/<int:id>', views.viewmorequisitionformmanager, name='manager.view.more.requisitionform'),
     
 ]

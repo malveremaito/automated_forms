@@ -1,7 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from accounts.models import Department
-import datetime
+from datetime import datetime 
+
 # Create your models here.
 
 class RequisitionForm(models.Model):
@@ -12,9 +13,9 @@ class RequisitionForm(models.Model):
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
     date = models.DateField()
     start_time = models.TimeField()
-    end_time = models.TimeField(null=True, blank=True)
+    end_time = models.TextField(null=True, blank=True)
     service_requested = models.TextField()
-    other_service = models.TextField(null=True, blank=True)
+    other_service = models.TextField(blank=True)
     reason_for_request = models.TextField()
     resp_dir_decision= models.CharField(
         max_length=11,
@@ -31,8 +32,8 @@ class RequisitionForm(models.Model):
             max_length=11,
             default='Pending',
             choices=[('Approved','Approved'),('Disapproved','Disapproved'),('Pending','Pending')])
-    mangaer_ict_comments = models.TextField(null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    manager_ict_comments = models.TextField(null=True, blank=True)
+    created_at = models.DateTimeField(default=datetime.now())
     
     
     

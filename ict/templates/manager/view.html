@@ -35,7 +35,7 @@
     <div class="card-body">
       <div class="col-md-auto">
         <label > <strong>DATE & TIME LODGED:  </strong><p class="mb-2 bg-gradient-primary text-white"> {{data.created_at}} </p></label>
-        <a href="{% url 'ict-home' %}" class="btn btn-primary btn-sm float-right">Go Back <i class="fa fa-chevron-circle-left" aria-hidden="true"></i></a>
+        <a href="{% url 'manager-dashboard' %}" class="btn btn-primary btn-sm float-right">Go Back <i class="fa fa-chevron-circle-left" aria-hidden="true"></i></a>
       </div>
 
         <div class="col-md-auto row-md-auto">
@@ -69,18 +69,7 @@
         </div>
         </div>
     
-        <div class="col-md-auto float-right">
-          <label for="reason_for_request" class="form-label"><strong>MANAGER ICT DECISION:</strong></label>
-          
-          {% if data.manager_ict_decision == "Pending" %}
-                            <span class="badge badge-warning">Pending</span>
-          {% elif data.manager_ict_decision == "Disapproved" %}
-                            <span class="badge badge-danger">Disapproved</span>   
-          {% elif data.manager_ict_decision == "Approved" %}
-                            <span class="badge badge-success">Approved</span>               
-          {% endif %}
-          
-        </div>
+       
          
           
        
@@ -99,7 +88,7 @@
         </div>
 
         <div class="col-md-auto float-right">
-          <label for="reason_for_request" class="form-label"><strong>RESPECTIVE DIR DECISION:</strong></label>
+          <label for="reason_for_request" class="form-label"><strong>{{  data.department }} DIR DECISION:</strong></label>
           
           {% if data.resp_dir_decision == "Pending" %}
                             <span class="badge badge-warning">Pending</span>
@@ -145,7 +134,11 @@
           <i> {{data.dss_director_comments}}</i>
         </div>
               
-            
+        <div class="col-md-auto">
+            <button type="submit" name="SubmitButton" value="Approve" class="btn btn-sm btn-success">Approve</button>
+            <button type="submit" name="SubmitButton" value="Unapprove" class="btn btn-sm btn-danger">Unapprove</button>
+          </div>
+        
      
       <!-- Form Body end -->
     </div>

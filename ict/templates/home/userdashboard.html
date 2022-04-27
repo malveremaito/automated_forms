@@ -20,7 +20,7 @@
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-       <h6 class="m-0 font-weight-bold text-primary"><i class='fa fa-check-square-o'></i> Manager Dashboard</h6>
+       <h6 class="m-0 font-weight-bold text-primary"><i class='fa fa-check-square-o'></i> Dashboard</h6>
     </div>
     
 </div>
@@ -164,8 +164,8 @@
                             <th width="10%">Date</th>
                             <th width="5%">Form</th>
                             <th width="35%">Summary</th>
-                            <th width="5%">Show </th>
-                            
+                            <th width="5%">Actions</th>
+                            <th width="5%">Status</th>
                         </tr>
                                 
                     </thead>
@@ -180,11 +180,24 @@
                             <td>{{requisitionform.created_at}} </td>    
                             <td><i>{{requisitionform.form_name}} </i></td>
                             <td>{{requisitionform.service_requested}} | {{requisitionform.other_service}} </td>    
-                            <td><a href="{% url 'manager.view.more.requisitionform' requisitionform.id %}" class="btn btn-primary btn-sm">More <i class="fa fa-eye" aria-hidden="true"></i></a>
-                                
-                            
+                            <td><a href="{% url 'view.more.requisitionform' requisitionform.id %}" class="btn btn-primary btn-sm">More <i class="fa fa-eye" aria-hidden="true"></i></a></td>
+                            <td>
+                                {% if requisitionform.resp_dir_decision == "Pending" %}
+                                    <span class="badge badge-warning">Pending</span>
+                                {% elif requisitionform.resp_dir_decision == "Disapproved"  %}
+                                    <span class="badge badge-danger">Disapproved</span>
+                                {% elif requisitionform.dss_director_decision == "Pending"  %}
+                                    <span class="badge badge-warning">Pending</span>
+                                {% elif requisitionform.dss_director_decision == "Disapproved"  %}
+                                    <span class="badge badge-danger">Pending</span>
+                                {% elif requisitionform.mangaer_ict_decision == "Pending"  %}
+                                    <span class="badge badge-warning">Pending</span>
+                                {% elif requisitionform.mangaer_ict_decision == "Disapproved"  %}
+                                    <span class="badge badge-danger">Pending</span>
+                                {% else %}
+                                    <span class="badge badge-success">Approved</span>
+                                {% endif %}
                             </td>
-                            
                         {% endfor %}
                         </tr>
                     </tbody>

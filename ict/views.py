@@ -52,7 +52,7 @@ def insertrequisitionform(request):
             return redirect("ict-home")  
     
 @login_required
-def ictrequisitionformmodalview(request, id):
+def viewmorequisitionform(request, id):
        
     data = RequisitionForm.objects.get(id=id)
     data
@@ -60,11 +60,19 @@ def ictrequisitionformmodalview(request, id):
 
 @login_required
 def userdashboard(request):
-    requisitionforms = RequisitionForm.objects.all().order_by('-created_at')
+    requisitionforms = RequisitionForm.objects.all()
     totalrequests = RequisitionForm.objects.all().count()   
-    return render(request,"ict_user_dashboard/userdashboard.html",{'requisitionforms':requisitionforms,'totalrequests':totalrequests})
+    return render(request,"home/userdashboard.html",{'requisitionforms':requisitionforms,'totalrequests':totalrequests})
 
 @login_required
 def managerdashboard(request):
-    return render(request,"manager/approval.html")
+    requisitionforms = RequisitionForm.objects.all()
+    totalrequests = RequisitionForm.objects.all().count()   
+    return render(request,"manager/approval.html",{'requisitionforms':requisitionforms,'totalrequests':totalrequests})
 
+@login_required
+def viewmorequisitionformmanager(request, id):
+       
+    data = RequisitionForm.objects.get(id=id)
+    data
+    return render(request, 'manager/view.html', {"data": data})
