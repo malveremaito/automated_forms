@@ -5,12 +5,14 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from .models import RequisitionForm
+from dss.models import form
 # Create your views here.
 
 
 @login_required
 def ict_homepage(request):
-    return render(request,"home/forms.html")
+    data = form.objects.all()
+    return render(request,"home/forms.html",{"data": data})
 
 @login_required
 def viewrequisitionform(request):
@@ -50,13 +52,13 @@ def insertrequisitionform(request):
         
             messages.success(request, 'Form Submitted Successfully ')
             return redirect("ict-home")  
-    
+
 @login_required
 def viewmorequisitionform(request, id):
        
     data = RequisitionForm.objects.get(id=id)
     data
-    return render(request, 'ict_requisition_form/view.html', {"data": data})
+    return render(request, 'ict_requisition_form/view-more-requisitionform.html', {"data": data})
 
 @login_required
 def userdashboard(request):
@@ -64,15 +66,20 @@ def userdashboard(request):
     totalrequests = RequisitionForm.objects.all().count()   
     return render(request,"home/userdashboard.html",{'requisitionforms':requisitionforms,'totalrequests':totalrequests})
 
-@login_required
-def managerdashboard(request):
-    requisitionforms = RequisitionForm.objects.all()
-    totalrequests = RequisitionForm.objects.all().count()   
-    return render(request,"manager/approval.html",{'requisitionforms':requisitionforms,'totalrequests':totalrequests})
+
+
 
 @login_required
 def viewmorequisitionformmanager(request, id):
        
     data = RequisitionForm.objects.get(id=id)
-    data
     return render(request, 'manager/view.html', {"data": data})
+
+
+#Manager
+
+@login_required
+def managerdashboard(request):
+    requisitionforms = RequisitionForm.objects.all()
+    totalrequests = RequisitionForm.objects.all().count()   
+    return render(request,"manager/approval.html",{'requisitionforms':requisitionforms,'totalrequests':totalrequests})
