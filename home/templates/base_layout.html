@@ -57,22 +57,6 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#ict"
-                    aria-expanded="true" aria-controls="ict">
-                    <i class="fas fa-fw fa-desktop"></i>
-                    <span>ICT</span>
-                </a>
-                <div id="ict" class="collapse" aria-labelledby="ict" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">ICT Components:</h6>
-                        <a class="collapse-item" href="{% url 'ict-home' %}">Dashboard</a>
-                        <a class="collapse-item" href="{% url 'forms' %}">Forms</a>
-                        <a class="collapse-item" href="{% url 'manager-dashboard' %}">Approval</a>
-                    </div>
-                </div>
-            </li>
-
-            <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#DSS"
                     aria-expanded="true" aria-controls="DSS">
                     <i class="fas fa-solid fa-building"></i>
@@ -81,9 +65,9 @@
                 <div id="DSS" class="collapse" aria-labelledby="DSS" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">DSS Components:</h6>
-                        <a class="collapse-item" href="{% url 'ict-home' %}">Dashboard</a>
+                        <a class="collapse-item" href="{% url 'dashboard' %}">Dashboard</a>
                         <a class="collapse-item" href="{% url 'forms' %}">Forms</a>
-                        <a class="collapse-item" href="{% url 'manager-dashboard' %}">Approval</a>
+                        <a class="collapse-item" href="{% url 'approvals' %}">Approval</a>
                     </div>
                 </div>
             </li>
@@ -97,9 +81,9 @@
                 <div id="FMD" class="collapse" aria-labelledby="FMD" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">FMD Components:</h6>
-                        <a class="collapse-item" href="{% url 'ict-home' %}">Dashboard</a>
+                        <a class="collapse-item" href="{% url 'dashboard' %}">Dashboard</a>
                         <a class="collapse-item" href="{% url 'forms' %}">Forms</a>
-                        <a class="collapse-item" href="{% url 'manager-dashboard' %}">Approval</a>
+                        <a class="collapse-item" href="{% url 'approvals' %}">Approval</a>
                     </div>
                 </div>
             </li>
@@ -114,9 +98,9 @@
                 <div id="GOV" class="collapse" aria-labelledby="GOV" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">GOV Components:</h6>
-                        <a class="collapse-item" href="{% url 'ict-home' %}">Dashboard</a>
+                        <a class="collapse-item" href="{% url 'dashboard' %}">Dashboard</a>
                         <a class="collapse-item" href="{% url 'forms' %}">Forms</a>
-                        <a class="collapse-item" href="{% url 'manager-dashboard' %}">Approval</a>
+                        <a class="collapse-item" href="{% url 'approvals' %}">Approval</a>
                     </div>
                 </div>
             </li>
@@ -132,9 +116,9 @@
                 <div id="FRD" class="collapse" aria-labelledby="FRD" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">FRD Components:</h6>
-                        <a class="collapse-item" href="{% url 'ict-home' %}">Dashboard</a>
+                        <a class="collapse-item" href="{% url 'dashboard' %}">Dashboard</a>
                         <a class="collapse-item" href="{% url 'forms' %}">Forms</a>
-                        <a class="collapse-item" href="{% url 'manager-dashboard' %}">Approval</a>
+                        <a class="collapse-item" href="{% url 'approvals' %}">Approval</a>
                     </div>
                 </div>
             </li>
@@ -150,9 +134,9 @@
                 <div id="ERD" class="collapse" aria-labelledby="ERD" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">ERD Components:</h6>
-                        <a class="collapse-item" href="{% url 'ict-home' %}">Dashboard</a>
+                        <a class="collapse-item" href="{% url 'dashboard' %}">Dashboard</a>
                         <a class="collapse-item" href="{% url 'forms' %}">Forms</a>
-                        <a class="collapse-item" href="{% url 'manager-dashboard' %}">Approval</a>
+                        <a class="collapse-item" href="{% url 'approvals' %}">Approval</a>
                     </div>
                 </div>
             </li>
@@ -388,7 +372,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Reserve Bank of Vanuatu 2021</span>
+                        <span>Copyright &copy; Reserve Bank of Vanuatu 2022</span>
                     </div>
                 </div>
             </footer>

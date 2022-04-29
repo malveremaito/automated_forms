@@ -21,7 +21,7 @@ class Role(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     roles = models.CharField(
         max_length=20,
-        choices=[('ICT_Manger','ICT Manager'),('DSS_Director','DSS Director'),('FRD_Director','FRD Director'),('FMD_Director','FMD Director'),('ERD_Director','ERD Director'),('DG','DG'),('GOV','GOV'),('Staff','Staff')]
+        choices=[('ICT_Manager','ICT Manager'),('DSS_Director','DSS Director'),('FRD_Director','FRD Director'),('FMD_Director','FMD Director'),('ERD_Director','ERD Director'),('DG','DG'),('GOV','GOV'),('Staff','Staff')]
     )
     
     
