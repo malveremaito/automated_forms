@@ -16,7 +16,7 @@ def forms(request):
 
 #requisitionform   
 @login_required   
-def requisitionform(request):
+def ict_requisition_form(request):
     return render(request,"ict_requisition_form/index.html")
 
 #addrequisitionform

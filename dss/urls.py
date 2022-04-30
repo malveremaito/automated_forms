@@ -11,7 +11,7 @@ urlpatterns = [
 
 
 #Forms
-    path('requisitionform', views.requisitionform, name='requisitionform'),
+    path('ict-requisition-form', views.ict_requisition_form, name='requisitionform'),
     
 #Dir & Managers Approvals
 
