@@ -4,7 +4,9 @@ from urllib import request
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from .models import ICTRequisitionForm
+
+from accounts.models import Department, Role
+from .models import ICTRequisitionForm 
 from dss.models import form
 # Create your views here.
 
@@ -16,7 +18,7 @@ def forms(request):
 
 #requisitionform   
 @login_required   
-def requisitionform(request):
+def ict_requisition_form(request):
     return render(request,"ict_requisition_form/index.html")
 
 #addrequisitionform
@@ -85,7 +87,6 @@ def requisitionform_ict_manger_approval(request, id):
 def approvals(request):
 
     if request.user.role.roles == "ICT_Manager":
-        
         requisitionforms = ICTRequisitionForm.objects.filter(resp_dir_decision="Approved",dss_dir_decision="Approved") 
         totalrequests = ICTRequisitionForm.objects.filter(resp_dir_decision="Approved",dss_dir_decision="Approved").count()   
         return render(request,"ict_requisition_form/manager_ict/dashboard.html",{'requisitionforms':requisitionforms,'totalrequests':totalrequests})
@@ -93,7 +94,33 @@ def approvals(request):
     if request.user.role.roles == "DSS_Director":
         requisitionforms = ICTRequisitionForm.objects.all()
         totalrequests = ICTRequisitionForm.objects.all().count()   
-        return render(request,"ict_requisition_form/manager_ict/dashboard.html",{'requisitionforms':requisitionforms,'totalrequests':totalrequests})
+        return render(request,"ict_requisition_form/director_dss/dashboard.html",{'requisitionforms':requisitionforms,'totalrequests':totalrequests})
+    
+    if request.user.role.roles == "FMD_Director":
+        requisitionforms = ICTRequisitionForm.objects.all()
+        totalrequests = ICTRequisitionForm.objects.all().count()   
+        return render(request,"ict_requisition_form/director_fmd/dashboard.html",{'requisitionforms':requisitionforms,'totalrequests':totalrequests})
+    
+    if request.user.role.roles == "GOV":
+        requisitionforms = ICTRequisitionForm.objects.all()
+        totalrequests = ICTRequisitionForm.objects.all().count()   
+        return render(request,"ict_requisition_form/gov/dashboard.html",{'requisitionforms':requisitionforms,'totalrequests':totalrequests})
+    
+    if request.user.role.roles == "ERD_Director":
+        requisitionforms = ICTRequisitionForm.objects.all()
+        totalrequests = ICTRequisitionForm.objects.all().count()   
+        return render(request,"ict_requisition_form/gov/dashboard.html",{'requisitionforms':requisitionforms,'totalrequests':totalrequests})
+    
+    if request.user.role.roles == "FRD_Director":
+        # depart = Department.object.filter(department='FRD')
+        requisitionforms = ICTRequisitionForm.objects.all()
+        totalrequests = ICTRequisitionForm.objects.all().count()   
+        return render(request,"ict_requisition_form/director_frd/dashboard.html",{'requisitionforms':requisitionforms,'totalrequests':totalrequests})
+    
+    if request.user.role.roles == "DG":
+        requisitionforms = ICTRequisitionForm.objects.all()
+        totalrequests = ICTRequisitionForm.objects.all().count()   
+        return render(request,"ict_requisition_form/gov/dashboard.html",{'requisitionforms':requisitionforms,'totalrequests':totalrequests})
     else:
         return render(request,"unathorized.html")
         
