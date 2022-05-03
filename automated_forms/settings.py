@@ -42,6 +42,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'home',
     'dss',
+    'frd',
+    'fmd',
+    'gov',
+    'erd',
     'accounts.apps.AccountsConfig',
 ]
 

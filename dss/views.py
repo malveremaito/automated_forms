@@ -60,6 +60,7 @@ def requisitionform_more_and_approval(request, id):
 
         data = ICTRequisitionForm.objects.get(id=id)
         return render(request, 'ict_requisition_form/manager_ict/more_and_approval.html', {"data": data})
+        
 
 #view more details
 @login_required   
@@ -93,34 +94,30 @@ def approvals(request):
 
     if request.user.role.roles == "DSS_Director":
         requisitionforms = ICTRequisitionForm.objects.all()
-        totalrequests = ICTRequisitionForm.objects.all().count()   
-        return render(request,"ict_requisition_form/director_dss/dashboard.html",{'requisitionforms':requisitionforms,'totalrequests':totalrequests})
+        totalrequests = ICTRequisitionForm.objects.filter().count()   
+        return render(request,"ict_requisition_form/director_dss/dashboard.html",{'requisitionforms':requisitionforms,'totalrequests':totalrequests})    
     
     if request.user.role.roles == "FMD_Director":
-        requisitionforms = ICTRequisitionForm.objects.all()
-        totalrequests = ICTRequisitionForm.objects.all().count()   
+        requisitionforms = ICTRequisitionForm.objects.filter(department='FMD')
+        totalrequests = ICTRequisitionForm.objects.filter(department='FMD').count()   
         return render(request,"ict_requisition_form/director_fmd/dashboard.html",{'requisitionforms':requisitionforms,'totalrequests':totalrequests})
     
     if request.user.role.roles == "GOV":
-        requisitionforms = ICTRequisitionForm.objects.all()
+        requisitionforms = ICTRequisitionForm.objects.filter(department='GOV')
         totalrequests = ICTRequisitionForm.objects.all().count()   
         return render(request,"ict_requisition_form/gov/dashboard.html",{'requisitionforms':requisitionforms,'totalrequests':totalrequests})
     
     if request.user.role.roles == "ERD_Director":
-        requisitionforms = ICTRequisitionForm.objects.all()
+        requisitionforms = ICTRequisitionForm.objects.filter(department='ERD')
         totalrequests = ICTRequisitionForm.objects.all().count()   
         return render(request,"ict_requisition_form/gov/dashboard.html",{'requisitionforms':requisitionforms,'totalrequests':totalrequests})
     
     if request.user.role.roles == "FRD_Director":
         # depart = Department.object.filter(department='FRD')
-        requisitionforms = ICTRequisitionForm.objects.all()
+        requisitionforms = ICTRequisitionForm.objects.filter(department='FRD')
         totalrequests = ICTRequisitionForm.objects.all().count()   
         return render(request,"ict_requisition_form/director_frd/dashboard.html",{'requisitionforms':requisitionforms,'totalrequests':totalrequests})
     
-    if request.user.role.roles == "DG":
-        requisitionforms = ICTRequisitionForm.objects.all()
-        totalrequests = ICTRequisitionForm.objects.all().count()   
-        return render(request,"ict_requisition_form/gov/dashboard.html",{'requisitionforms':requisitionforms,'totalrequests':totalrequests})
     else:
         return render(request,"unathorized.html")
         

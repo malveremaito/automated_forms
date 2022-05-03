@@ -13,7 +13,7 @@ urlpatterns = [
 #Forms
 
 
-    path('ictrequisitionform', views.requisitionform, name='requisitionform'),
+    path('ictrequisitionform', views.ict_requisition_form, name='requisitionform'),
 
 
 

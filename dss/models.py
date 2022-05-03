@@ -15,7 +15,7 @@ class ICTRequisitionForm(models.Model):
     form_name = models.CharField(max_length=20,
         default='ICT Requisition Form',choices=[('ICT_Requisition_Form','ICT Requisition Form')]
         )
-    department = models.ForeignKey(Department, on_delete=models.CASCADE)
+    department = models.CharField( max_length=6)
     date = models.DateField()
     start_time = models.TimeField()
     end_time = models.TextField(null=True, blank=True)
@@ -42,9 +42,9 @@ class ICTRequisitionForm(models.Model):
     
     
     
-def get_first_name(self):
+def get_full_name(self):
     return self.first_name + " " + self.last_name
-User.add_to_class("__str__", get_first_name)
+User.add_to_class("__str__", get_full_name)
 
 def get_department_name(self):
     return self.department
