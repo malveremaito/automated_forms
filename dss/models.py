@@ -13,7 +13,7 @@ class form(models.Model):
 class ICTRequisitionForm(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     form_name = models.CharField(max_length=20,
-        default='ICT Requisition Form',choices=[('ICT_Requisition_Form','ICT Requisition Form')]
+        default='ICT Requisition Form',choices=[('ICT Requisition Form','ICT Requisition Form')]
         )
     department = models.CharField( max_length=6)
     date = models.DateField()

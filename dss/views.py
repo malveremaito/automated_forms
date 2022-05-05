@@ -4,7 +4,7 @@ from urllib import request
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-
+from django.db.models import Q
 from accounts.models import Department, Role
 from .models import ICTRequisitionForm 
 from dss.models import form
@@ -54,13 +54,23 @@ def insertrequisitionform(request):
             messages.success(request, 'Form Submitted Successfully ')
             return redirect("dashboard")  
 
-#Manager 
+#ICT Manager 
 @login_required 
 def requisitionform_more_and_approval(request, id):
-
-        data = ICTRequisitionForm.objects.get(id=id)
-        return render(request, 'ict_requisition_form/manager_ict/more_and_approval.html', {"data": data})
         
+        data = ICTRequisitionForm.objects.get(id=id)
+        
+        if request.method == 'POST':
+            t = ICTRequisitionForm.objects.get(id=id)
+            t.manager_ict_decision = request.POST.get('manager_ict_decision')
+            t.save() 
+            messages.success(request, 'Updated Successfully')
+            return redirect("approvals")  
+
+        else:
+
+            return render(request, 'ict_requisition_form/manager_ict/more_and_approval.html', {"data": data})
+
 
 #view more details
 @login_required   
@@ -93,9 +103,10 @@ def approvals(request):
         return render(request,"ict_requisition_form/manager_ict/dashboard.html",{'requisitionforms':requisitionforms,'totalrequests':totalrequests})
 
     if request.user.role.roles == "DSS_Director":
-        requisitionforms = ICTRequisitionForm.objects.all()
-        totalrequests = ICTRequisitionForm.objects.filter().count()   
-        return render(request,"ict_requisition_form/director_dss/dashboard.html",{'requisitionforms':requisitionforms,'totalrequests':totalrequests})    
+
+        requisitionforms = ICTRequisitionForm.objects.filter(department='DSS')
+        otherdepartment = ICTRequisitionForm.objects.filter(~Q(department= 'DSS'),resp_dir_decision="Approved")   
+        return render(request,"ict_requisition_form/director_dss/dashboard.html",{'requisitionforms':requisitionforms,'otherdepartment':otherdepartment})    
     
     if request.user.role.roles == "FMD_Director":
         requisitionforms = ICTRequisitionForm.objects.filter(department='FMD')
