@@ -19,7 +19,26 @@ urlpatterns = [
 
 #Dir & Managers Approvals
 
-    path('requisitionform_more_and_approval/<int:id>', views.requisitionform_more_and_approval, name='requisitionform_more_and_approval'),
+#ICT Manager Approval#
+#####################################################################################################
+    path('ict-manager-approval/<int:id>', views.ict_manager_approval, name='ict-manager-approval'),
+#####################################################################################################  
+
+#DSS Director Approval#
+#####################################################################################################
+    path('dss-director-approval/<int:id>', views.dss_director_approval, name='dss-director-approval'),
+#####################################################################################################
+
+#FMD Director Approval#
+#####################################################################################################
+    path('fmd-director-approval/<int:id>', views.fmd_director_approval, name='fmd-director-approval'),
+#####################################################################################################
+
+#FRD Director Approval#
+#####################################################################################################
+    path('frd-director-approval/<int:id>', views.frd_director_approval, name='frd-director-approval'),
+#####################################################################################################
+    
     path('insert-requisition-form', views.insertrequisitionform, name='insert-requisition-form'),
     path('ictmanager-more-requisition-form-manager/<int:id>', views.requisitionform_ict_manger_approval, name='ict.manager.approval.requisitionform'),
     

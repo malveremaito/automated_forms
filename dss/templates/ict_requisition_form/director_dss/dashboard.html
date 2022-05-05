@@ -50,7 +50,7 @@
 
         <div class="card-body">        
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
                     <thead>
                         <tr>
                             <th width="10%">Date</th>
@@ -73,7 +73,7 @@
                             <td>{{requisitionform.created_at}} </td>    
                             <td><i>{{requisitionform.form_name}} </i></td>
                             <td>{{requisitionform.service_requested}} | {{requisitionform.other_service}} </td>    
-                            <td><a href="{% url 'requisitionform_more_and_approval' requisitionform.id %}" class="btn btn-primary btn-sm">More <i class="fa fa-eye" aria-hidden="true"></i></a>
+                            <td><a href="{% url 'dss-director-approval' requisitionform.id %}" class="btn btn-primary btn-sm">More <i class="fa fa-eye" aria-hidden="true"></i></a>
                             </td>
                             <td>
                                
@@ -103,7 +103,7 @@
 
         <div class="card-body">        
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="dataTable2" width="100%" cellspacing="0">
                     <thead>
                         <tr>
                             <th width="10%">Date</th>
@@ -126,7 +126,7 @@
                             <td>{{otherdepartment.created_at}} </td>    
                             <td><i>{{otherdepartment.form_name}} </i></td>
                             <td>{{otherdepartment.service_requested}} | {{otherdepartment.other_service}} </td>    
-                            <td><a href="{% url 'requisitionform_more_and_approval' otherdepartment.id %}" class="btn btn-primary btn-sm">More <i class="fa fa-eye" aria-hidden="true"></i></a>
+                            <td><a href="{% url 'dss-director-approval' otherdepartment.id %}" class="btn btn-primary btn-sm">More <i class="fa fa-eye" aria-hidden="true"></i></a>
                             </td>
                             <td>
                                
@@ -158,7 +158,16 @@
 <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>                                                      
 <script>
     $(document).ready(function() {
-        $('#dataTable').DataTable();
+        $('#dataTable1').DataTable();
+        });
+        $('.building-link').click(function(){
+            $('#building-name').html($(this).data('name'));
+            $('#building-description').html($(this).data('description'));
+            $('#building-img').src($(this).data('img'));
+        });
+
+    $(document).ready(function() {
+        $('#dataTable2').DataTable();
         });
         $('.building-link').click(function(){
             $('#building-name').html($(this).data('name'));

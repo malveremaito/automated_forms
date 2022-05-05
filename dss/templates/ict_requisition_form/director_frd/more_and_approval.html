@@ -35,7 +35,7 @@
     <div class="card-body">
       <div class="col-md-auto">
         <label > <strong>DATE & TIME LODGED:  </strong><p class="mb-2 bg-gradient-primary text-white"> {{data.created_at}} </p></label>
-        <a href="{% url 'dashboard' %}" class="btn btn-primary btn-sm float-right">Go Back <i class="fa fa-chevron-circle-left" aria-hidden="true"></i></a>
+        <a href="{% url 'approvals' %}" class="btn btn-primary btn-sm float-right">Go Back <i class="fa fa-chevron-circle-left" aria-hidden="true"></i></a>
       </div>
 
         <div class="col-md-auto row-md-auto">
@@ -134,11 +134,14 @@
           <i> {{data.dss_director_comments}}</i>
         </div>
       
-        
+       
+          <form id="form" method="POST" action = "">
+            {% csrf_token %}
         <div class="col-md-auto">
-            <button type="submit" name="SubmitButton" value="Approve" class="btn btn-sm btn-success">Approve</button>
-            <button type="submit" name="SubmitButton" value="Disapprove" class="btn btn-sm btn-danger">Disapprove</button>
+            <button type="submit" name="resp_dir_decision" value="Approved" class="btn btn-sm btn-success">Approve</button>
+            <button type="submit" name="resp_dir_decision" value="Disapproved" class="btn btn-sm btn-danger">Disapprove</button>
           </div>
+        </form>
         
      
       <!-- Form Body end -->

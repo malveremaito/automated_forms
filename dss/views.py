@@ -54,9 +54,9 @@ def insertrequisitionform(request):
             messages.success(request, 'Form Submitted Successfully ')
             return redirect("dashboard")  
 
-#ICT Manager 
+#ICT Manager Approval
 @login_required 
-def requisitionform_more_and_approval(request, id):
+def ict_manager_approval(request, id):
         
         data = ICTRequisitionForm.objects.get(id=id)
         
@@ -70,11 +70,66 @@ def requisitionform_more_and_approval(request, id):
         else:
 
             return render(request, 'ict_requisition_form/manager_ict/more_and_approval.html', {"data": data})
+        
+@login_required  
+#Director DSS Approval    
+def dss_director_approval(request, id):
+        
+        data = ICTRequisitionForm.objects.get(id=id)
+        
+        if request.method == 'POST':
+            t = ICTRequisitionForm.objects.get(id=id)
+            if t.department =='DSS':
+                t.resp_dir_decision = request.POST.get('dss_dir_decision')
+                t.dss_dir_decision = request.POST.get('dss_dir_decision')
+              
+                t.save()
+            else:  
+               
+                t.dss_dir_decision = request.POST.get('dss_dir_decision')
+                t.save()
+            messages.success(request, 'Updated Successfully')
+            return redirect("approvals")  
 
+        else:
+
+            return render(request, 'ict_requisition_form/director_dss/more_and_approval.html', {"data": data})
+
+@login_required 
+def fmd_director_approval(request, id):
+        
+        data = ICTRequisitionForm.objects.get(id=id)
+        
+        if request.method == 'POST':
+            t = ICTRequisitionForm.objects.get(id=id)
+            t.resp_dir_decision = request.POST.get('resp_dir_decision')
+            t.save() 
+            messages.success(request, 'Updated Successfully')
+            return redirect("approvals")  
+
+        else:
+
+            return render(request, 'ict_requisition_form/director_fmd/more_and_approval.html', {"data": data})
+
+@login_required 
+def frd_director_approval(request, id):
+        
+        data = ICTRequisitionForm.objects.get(id=id)
+        
+        if request.method == 'POST':
+            t = ICTRequisitionForm.objects.get(id=id)
+            t.resp_dir_decision = request.POST.get('resp_dir_decision')
+            t.save() 
+            messages.success(request, 'Updated Successfully')
+            return redirect("approvals")  
+
+        else:
+
+            return render(request, 'ict_requisition_form/director_frd/more_and_approval.html', {"data": data})
 
 #view more details
 @login_required   
-def  more(request, id):
+def more(request, id):
    
     data = ICTRequisitionForm.objects.get(id=id)
     return render(request, 'ict_requisition_form/more.html', {"data": data})
