@@ -135,12 +135,14 @@
         </div>
       
         
-        <div class="col-md-auto">
-            <button type="submit" name="SubmitButton" value="Approve" class="btn btn-sm btn-success">Approve</button>
-            <button type="submit" name="SubmitButton" value="Disapprove" class="btn btn-sm btn-danger">Disapprove</button>
-          </div>
+        <form id="form" method="POST" action = "">
+          {% csrf_token %}
+          <div class="col-md-auto">
+              <button type="submit" name="manager_ict_decision" value="Approved" class="btn btn-sm btn-success">Approve</button>
+              <button type="submit" name="manager_ict_decision" value="Disapproved" class="btn btn-sm btn-danger">Disapprove</button>
+            </div>
         
-     
+        </form>
       <!-- Form Body end -->
     </div>
   </div>
