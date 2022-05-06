@@ -126,7 +126,6 @@
                     
                     <div class="col-auto">
                         <i class="fas fa-comments fa-2x text-gray-300"></i>
-            
                     </div>
             
                 </div>
@@ -161,6 +160,7 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            <th width="7.5%">User</th>
                             <th width="10%">Date</th>
                             <th width="5%">Form</th>
                             <th width="35%">Summary</th>
@@ -177,7 +177,7 @@
                         {% for requisitionform in requisitionforms %}
                                     
                         <tr>
-                                
+                            <td>{{requisitionform.user}} </td> 
                             <td>{{requisitionform.created_at}} </td>    
                             <td><i>{{requisitionform.form_name}} </i></td>
                             <td>{{requisitionform.service_requested}} | {{requisitionform.other_service}} </td>    
