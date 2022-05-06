@@ -68,7 +68,19 @@
         </div>
     
        
-         
+              
+        <div class="col-md-auto float-right">
+          <label for="reason_for_request" class="form-label"><strong>ICT Manager DECISION:</strong></label>
+          
+          {% if data.manager_ict_decision == "Pending" %}
+                            <span class="badge badge-warning">Pending</span>
+          {% elif data.manager_ict_decision == "Disapproved" %}
+                            <span class="badge badge-danger">Disapproved</span>   
+          {% elif data.manager_ict_decision == "Approved" %}
+                            <span class="badge badge-success">Approved</span>               
+          {% endif %}
+          
+        </div>
           
        
 
@@ -86,7 +98,7 @@
         </div>
 
         <div class="col-md-auto float-right">
-          <label for="reason_for_request" class="form-label"><strong>{{  data.department }} DIR DECISION:</strong></label>
+          <label for="reason_for_request" class="form-label"><strong>RESPECTIVE DIR DECISION:</strong></label>
           
           {% if data.resp_dir_decision == "Pending" %}
                             <span class="badge badge-warning">Pending</span>

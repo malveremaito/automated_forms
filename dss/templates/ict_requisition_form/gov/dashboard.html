@@ -53,7 +53,7 @@
 
     </div>
     
-       
+    
     <!-- Earnings (Monthly) Card Example -->
     <div class="col-xl-3 col-md-6 mb-4">
         <div class="card border-left-success shadow h-100 py-2">
@@ -73,7 +73,7 @@
         </div>
     </div>
                 
-           
+        
         
 
     <!-- Earnings (Monthly) Card Example -->
@@ -93,9 +93,9 @@
                                     <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
 
-                                 
+                                
                             </div>
-                                 
+                                
                         </div>
                                 
                     </div>
@@ -110,7 +110,7 @@
             </div>
                     
         </div>
-              
+            
     </div>
         
     <!-- Pending Requests Card Example -->
@@ -137,19 +137,19 @@
             
     </div>
 
-           
-          
+</div> 
 
-<div class="row">
-    {% if messages %}
-    {% for message in messages %}
-    <div class="alert alert-{{ message.tags }}" role="alert">
-    {{ message }}
+       
+      
+
+{% if messages %}
+{% for message in messages %}
+    <div class="alert alert-{{ message.tags }} " role="alert">
+        {{ message }}
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span></button>  
-    {% endfor %}    
-    {% endif %}
     </div>
-</div>
+{% endfor %}    
+{% endif %}
     
     <div class="card shadow mb-4">    
         <div class="card-header py-3">
@@ -181,13 +181,13 @@
                             <td>{{requisitionform.created_at}} </td>    
                             <td><i>{{requisitionform.form_name}} </i></td>
                             <td>{{requisitionform.service_requested}} | {{requisitionform.other_service}} </td>    
-                            <td><a href="{% url 'requisitionform_more_and_approval' requisitionform.id %}" class="btn btn-primary btn-sm">More <i class="fa fa-eye" aria-hidden="true"></i></a>
+                            <td><a href="{% url 'gov-approval' requisitionform.id %}" class="btn btn-primary btn-sm">More <i class="fa fa-eye" aria-hidden="true"></i></a>
                             </td>
                             <td>
                                
-                                {% if requisitionform.manager_ict_decision == "Approved"  %}
+                                {% if requisitionform.resp_dir_decision == "Approved"  %}
                                     <span class="badge badge-success">Approved</span>
-                                {% elif requisitionform.manager_ict_decision == "Disapproved"  %}
+                                {% elif requisitionform.resp_dir_decision == "Disapproved"  %}
                                     <span class="badge badge-danger">Disapproved</span>
                                 {% else %}
                                     <span class="badge badge-warning">Pending</span>

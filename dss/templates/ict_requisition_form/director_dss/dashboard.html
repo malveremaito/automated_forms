@@ -18,21 +18,17 @@
 
 <title>ICT | Dashboard</title>
 
+<div class="row">   
+    
 <div class="card shadow mb-4">
     <div class="card-header py-3">
        <h6 class="m-0 font-weight-bold text-primary"><i class='fa fa-check-square-o'></i> Director Dashboard</h6>
     </div>
     
 </div>
+   
 
-<div class="row">
 
-
-    
-           
-          
-
-<div class="row">
     {% if messages %}
     {% for message in messages %}
     <div class="alert alert-{{ message.tags }}" role="alert">
@@ -41,7 +37,7 @@
     {% endfor %}    
     {% endif %}
     </div>
-</div>
+
     
     <div class="card shadow mb-4">    
         <div class="card-header py-3">
@@ -53,6 +49,7 @@
                 <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            <th width="5%">User</th>
                             <th width="10%">Date</th>
                             <th width="5%">Form</th>
                             <th width="35%">Summary</th>
@@ -69,7 +66,7 @@
                         {% for requisitionform in requisitionforms %}
                                     
                         <tr>
-                                
+                            <td>{{requisitionform.user}} </td>     
                             <td>{{requisitionform.created_at}} </td>    
                             <td><i>{{requisitionform.form_name}} </i></td>
                             <td>{{requisitionform.service_requested}} | {{requisitionform.other_service}} </td>    
@@ -77,20 +74,17 @@
                             </td>
                             <td>
                                
-                                {% if requisitionform.manager_ict_decision == "Approved"  %}
+                                {% if requisitionform.dss_dir_decision == "Approved"  %}
                                     <span class="badge badge-success">Approved</span>
-                                {% elif requisitionform.manager_ict_decision == "Disapproved"  %}
+                                {% elif requisitionform.dss_dir_decision == "Disapproved"  %}
                                     <span class="badge badge-danger">Disapproved</span>
                                 {% else %}
                                     <span class="badge badge-warning">Pending</span>
                                 {% endif %}
                             </td>
-                        
-                            
-                        {% endfor %}
                         </tr>
+                        {% endfor %}
                     </tbody>
-            
                 </table>
             </div> 
         </div>
@@ -106,6 +100,7 @@
                 <table class="table table-bordered" id="dataTable2" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            <th width="5%">User</th>
                             <th width="10%">Date</th>
                             <th width="5%">Form</th>
                             <th width="35%">Summary</th>
@@ -122,7 +117,7 @@
                         {% for otherdepartment in otherdepartment %}
                                     
                         <tr>
-                                
+                            <td>{{otherdepartment.user}} </td>    
                             <td>{{otherdepartment.created_at}} </td>    
                             <td><i>{{otherdepartment.form_name}} </i></td>
                             <td>{{otherdepartment.service_requested}} | {{otherdepartment.other_service}} </td>    
@@ -130,9 +125,9 @@
                             </td>
                             <td>
                                
-                                {% if otherdepartment.manager_ict_decision == "Approved"  %}
+                                {% if otherdepartment.dss_dir_decision == "Approved"  %}
                                     <span class="badge badge-success">Approved</span>
-                                {% elif otherdepartment.manager_ict_decision == "Disapproved"  %}
+                                {% elif otherdepartment.dss_dir_decision == "Disapproved"  %}
                                     <span class="badge badge-danger">Disapproved</span>
                                 {% else %}
                                     <span class="badge badge-warning">Pending</span>

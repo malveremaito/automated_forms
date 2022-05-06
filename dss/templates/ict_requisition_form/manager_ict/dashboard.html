@@ -53,7 +53,7 @@
 
     </div>
     
-       
+    
     <!-- Earnings (Monthly) Card Example -->
     <div class="col-xl-3 col-md-6 mb-4">
         <div class="card border-left-success shadow h-100 py-2">
@@ -73,7 +73,7 @@
         </div>
     </div>
                 
-           
+        
         
 
     <!-- Earnings (Monthly) Card Example -->
@@ -93,14 +93,16 @@
                                     <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
 
-                                 
+                                
                             </div>
-                                 
-                        </div>  
+                                
+                        </div>
+                                
                     </div>
                             
                     <div class="col-auto">   
                         <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                        
                     </div>
                             
                 </div>
@@ -108,7 +110,7 @@
             </div>
                     
         </div>
-              
+            
     </div>
         
     <!-- Pending Requests Card Example -->
@@ -135,19 +137,19 @@
             
     </div>
 
-           
-          
+</div> 
 
-<div class="row">
-    {% if messages %}
-    {% for message in messages %}
-    <div class="alert alert-{{ message.tags }}" role="alert">
-    {{ message }}
+       
+      
+
+{% if messages %}
+{% for message in messages %}
+    <div class="alert alert-{{ message.tags }} " role="alert">
+        {{ message }}
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span></button>  
-    {% endfor %}    
-    {% endif %}
     </div>
-</div>
+{% endfor %}    
+{% endif %}
     
     <div class="card shadow mb-4">    
         <div class="card-header py-3">
@@ -159,6 +161,7 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            <th width="7.5%">User</th>
                             <th width="10%">Date</th>
                             <th width="5%">Form</th>
                             <th width="35%">Summary</th>
@@ -175,10 +178,10 @@
                         {% for requisitionform in requisitionforms %}
                                     
                         <tr>
-                                
+                             <td>{{requisitionform.user}} </td> 
                             <td>{{requisitionform.created_at}} </td>    
                             <td><i>{{requisitionform.form_name}} </i></td>
-                            <td>{{requisitionform.service_requested}} | {{requisitionform.other_service}} </td>    
+                            <td>{{requisitionform.service_requested}} | {{requisitionform.reason_for_request}} </td>    
                             <td><a href="{% url 'ict-manager-approval' requisitionform.id %}" class="btn btn-primary btn-sm">More <i class="fa fa-eye" aria-hidden="true"></i></a>
                             </td>
                             <td>

@@ -38,6 +38,16 @@ urlpatterns = [
 #####################################################################################################
     path('frd-director-approval/<int:id>', views.frd_director_approval, name='frd-director-approval'),
 #####################################################################################################
+
+#GOV Approval#
+#####################################################################################################
+    path('gov-approval/<int:id>', views.gov_approval, name='gov-approval'),
+#####################################################################################################
+
+#ERD Director Approval#
+#####################################################################################################
+    path('erd-director-approval/<int:id>', views.erd_director_approval, name='erd-director-approval'),
+#####################################################################################################
     
     path('insert-requisition-form', views.insertrequisitionform, name='insert-requisition-form'),
     path('ictmanager-more-requisition-form-manager/<int:id>', views.requisitionform_ict_manger_approval, name='ict.manager.approval.requisitionform'),

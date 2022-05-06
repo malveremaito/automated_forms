@@ -57,7 +57,7 @@ def insertrequisitionform(request):
 #ICT Manager Approval
 @login_required 
 def ict_manager_approval(request, id):
-        
+    if request.user.role.roles == "ICT_Manager":    
         data = ICTRequisitionForm.objects.get(id=id)
         
         if request.method == 'POST':
@@ -70,11 +70,13 @@ def ict_manager_approval(request, id):
         else:
 
             return render(request, 'ict_requisition_form/manager_ict/more_and_approval.html', {"data": data})
-        
+    else:
+        return render(request,"unathorized.html")
+
+#Director DSS Approval        
 @login_required  
-#Director DSS Approval    
 def dss_director_approval(request, id):
-        
+    if request.user.role.roles == "DSS_Director":        
         data = ICTRequisitionForm.objects.get(id=id)
         
         if request.method == 'POST':
@@ -94,10 +96,15 @@ def dss_director_approval(request, id):
         else:
 
             return render(request, 'ict_requisition_form/director_dss/more_and_approval.html', {"data": data})
+    else:
+        return render(request,"unathorized.html")
 
+
+#Director FRD Approval 
 @login_required 
 def fmd_director_approval(request, id):
-        
+    if request.user.role.roles == "FMD_Director":
+
         data = ICTRequisitionForm.objects.get(id=id)
         
         if request.method == 'POST':
@@ -110,10 +117,12 @@ def fmd_director_approval(request, id):
         else:
 
             return render(request, 'ict_requisition_form/director_fmd/more_and_approval.html', {"data": data})
+    else:
+        return render(request,"unathorized.html")
 
 @login_required 
 def frd_director_approval(request, id):
-        
+    if request.user.role.roles == "FRD_Director":    
         data = ICTRequisitionForm.objects.get(id=id)
         
         if request.method == 'POST':
@@ -126,6 +135,48 @@ def frd_director_approval(request, id):
         else:
 
             return render(request, 'ict_requisition_form/director_frd/more_and_approval.html', {"data": data})
+    else:
+        return render(request,"unathorized.html")
+        
+
+@login_required 
+def gov_approval(request, id):
+    if request.user.role.roles == "GOV":    
+        data = ICTRequisitionForm.objects.get(id=id)
+        
+        if request.method == 'POST':
+            t = ICTRequisitionForm.objects.get(id=id)
+            t.resp_dir_decision = request.POST.get('resp_dir_decision')
+            t.save() 
+            messages.success(request, 'Updated Successfully')
+            return redirect("approvals")  
+
+        else:
+
+            return render(request, 'ict_requisition_form/gov/more_and_approval.html', {"data": data})
+    else:
+        return render(request,"unathorized.html")
+
+
+@login_required 
+def erd_director_approval(request, id):
+    if request.user.role.roles == "ERD_Director":   
+        data = ICTRequisitionForm.objects.get(id=id)
+        
+        if request.method == 'POST':
+            t = ICTRequisitionForm.objects.get(id=id)
+            t.resp_dir_decision = request.POST.get('resp_dir_decision')
+            t.save() 
+            messages.success(request, 'Updated Successfully')
+            return redirect("approvals")  
+
+        else:
+
+            return render(request, 'ict_requisition_form/director_erd/more_and_approval.html', {"data": data})
+
+    else:
+        return render(request,"unathorized.html")
+
 
 #view more details
 @login_required   
@@ -176,7 +227,7 @@ def approvals(request):
     if request.user.role.roles == "ERD_Director":
         requisitionforms = ICTRequisitionForm.objects.filter(department='ERD')
         totalrequests = ICTRequisitionForm.objects.all().count()   
-        return render(request,"ict_requisition_form/gov/dashboard.html",{'requisitionforms':requisitionforms,'totalrequests':totalrequests})
+        return render(request,"ict_requisition_form/director_erd/dashboard.html",{'requisitionforms':requisitionforms,'totalrequests':totalrequests})
     
     if request.user.role.roles == "FRD_Director":
         # depart = Department.object.filter(department='FRD')
