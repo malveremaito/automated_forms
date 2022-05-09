@@ -1,0 +1,175 @@
+{% extends 'base_layout.html' %}
+{% block content %}
+{% load static %}
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ 
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css"></>
+
+   
+</head>
+
+<title>ICT | Dashboard</title>
+
+<div class="row">   
+    
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+       <h6 class="m-0 font-weight-bold text-primary"><i class='fa fa-check-square-o'></i> Director Dashboard</h6>
+    </div>
+    
+</div>
+   
+
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}" role="alert">
+    {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span></button>  
+    {% endfor %}    
+    {% endif %}
+    </div>
+
+    
+    <div class="card shadow mb-4">    
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary"><i class='fa fa-check-square-o'></i>DSS</h6>
+        </div>  
+
+        <div class="card-body">        
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th width="10%">Date</th>
+                            <th width="7.5%">User</th>
+                            <th width="20%">Service Requested</th>
+                            <th width="20%">Reason</th>
+                            <th width="5%">Action </th>
+                            <th width="5%">Status </th>
+                            
+                        </tr>
+                                
+                    </thead>
+                                
+                                    
+                    <tbody>
+                                    
+                        {% for requisitionform in requisitionforms %}
+                                    
+                        <tr>
+                            <td>{{requisitionform.created_at}} </td>
+                            <td>{{requisitionform.user}} </td>     
+                              
+                            <td>{{requisitionform.service_requested}} | {{requisitionform.other_service}} </td>   
+                            <td>{{requisitionform.reason_for_request}} </td> 
+                            <td><a href="{% url 'dss-director-approval' requisitionform.id %}" class="btn btn-primary btn-sm">More <i class="fa fa-eye" aria-hidden="true"></i></a>
+                            </td>
+                            <td>
+                               
+                                {% if requisitionform.dss_dir_decision == "Approved"  %}
+                                    <span class="badge badge-success">Approved</span>
+                                {% elif requisitionform.dss_dir_decision == "Disapproved"  %}
+                                    <span class="badge badge-danger">Disapproved</span>
+                                {% else %}
+                                    <span class="badge badge-warning">Pending</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div> 
+        </div>
+    </div>  
+
+    <div class="card shadow mb-4">    
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary"><i class='fa fa-check-square-o'></i>Other Department</h6>
+        </div>  
+
+        <div class="card-body">        
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable2" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th width="10%">Date</th>
+                            <th width="7.5%">User</th>
+                            <th width="20%">Service Requested</th>
+                            <th width="20%">Reason</th>
+                            <th width="5%">Action </th>
+                            <th width="5%">Status </th>
+                            
+                        </tr>
+                                
+                    </thead>
+                                
+                                    
+                    <tbody>
+                                    
+                        {% for otherdepartment in otherdepartment %}
+                                    
+                        <tr>
+                           
+                            <td>{{otherdepartment.created_at}} </td>    
+                            <td>{{otherdepartment.user}} </td>  
+                            <td>{{otherdepartment.service_requested}} | {{otherdepartment.other_service}} </td>    
+                            <td>{{otherdepartment.reason_for_request}} </td>  
+                            <td><a href="{% url 'dss-director-approval' otherdepartment.id %}" class="btn btn-primary btn-sm">More <i class="fa fa-eye" aria-hidden="true"></i></a>
+                            </td>
+                            <td>
+                               
+                                {% if otherdepartment.dss_dir_decision == "Approved"  %}
+                                    <span class="badge badge-success">Approved</span>
+                                {% elif otherdepartment.dss_dir_decision == "Disapproved"  %}
+                                    <span class="badge badge-danger">Disapproved</span>
+                                {% else %}
+                                    <span class="badge badge-warning">Pending</span>
+                                {% endif %}
+                            </td>
+                        
+                            
+                        {% endfor %}
+                        </tr>
+                    </tbody>
+            
+                </table>
+            </div> 
+        </div>
+    </div>  
+  
+    
+
+              
+                   
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script> 
+<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>                                                      
+<script>
+    $(document).ready(function() {
+        $('#dataTable1').DataTable();
+        });
+        $('.building-link').click(function(){
+            $('#building-name').html($(this).data('name'));
+            $('#building-description').html($(this).data('description'));
+            $('#building-img').src($(this).data('img'));
+        });
+
+    $(document).ready(function() {
+        $('#dataTable2').DataTable();
+        });
+        $('.building-link').click(function(){
+            $('#building-name').html($(this).data('name'));
+            $('#building-description').html($(this).data('description'));
+            $('#building-img').src($(this).data('img'));
+        });
+</script>
+{% endblock %}

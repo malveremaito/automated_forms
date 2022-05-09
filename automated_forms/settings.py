@@ -41,11 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'home',
-    'dss',
-    'frd',
-    'fmd',
-    'gov',
-    'erd',
+    'ict_requisition',
     'accounts.apps.AccountsConfig',
 ]
 
