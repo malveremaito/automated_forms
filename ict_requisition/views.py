@@ -11,6 +11,9 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from accounts.models import Department, Role
 from .models import ICTRequisitionForm 
+from django.core.mail import send_mail
+from django.conf import settings
+from django.template.loader import render_to_string
 # Create your views here.
 
 
@@ -51,6 +54,26 @@ def insertrequisitionform(request):
             
             data = ICTRequisitionForm(user=user,department=department,start_date=start_date,end_date=end_date,start_time=start_time,end_time=end_time,service_requested=service_requested,other_service=other_service,reason_for_request=reason_for_request)
             data.save()
+
+            
+            #Automated Email Send
+            subject = 'RBV Automated Forms'
+            template = render_to_string('email_template.html',{'firstname':request.user.first_name,'lastname':request.user.last_name})
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [request.user.email]
+            send_mail( subject, template, email_from, recipient_list )
+
+          
+            # subject = 'RBV Automated Forms'
+            # template = render_to_string('director_dss/email_template.html',{'firstname':request.user.first_name,'lastname':request.user.last_name})
+            # email_from = settings.EMAIL_HOST_USER
+
+            # for user in user.objects.filter(user.role.roles=='DSS_Director'):
+            #     recipient_list.append(user.email)
+            
+            # send_mail( subject, template, email_from, recipient_list )
+
+            
         
             messages.success(request, 'Form Submitted Successfully ')
             return redirect("dashboard")  
@@ -197,7 +220,8 @@ def more(request, id):
 def userdashboard(request):
     requisitionforms = ICTRequisitionForm.objects.filter(user_id = request.user.id)
     totalrequests = ICTRequisitionForm.objects.filter(user_id = request.user.id).count()  
-    return render(request,"dashboard.html",{'requisitionforms':requisitionforms,'totalrequests':totalrequests})
+    approvedrequest = ICTRequisitionForm.objects.filter(user_id = request.user.id,resp_dir_decision="Approved",dss_dir_decision="Approved",manager_ict_decision="Approved").count()  
+    return render(request,"dashboard.html",{'requisitionforms':requisitionforms,'totalrequests':totalrequests,'approvedrequest':approvedrequest})
 
 
 # @login_required
