@@ -55,8 +55,8 @@
                         {% for requisitionform in requisitionforms %}
                                     
                         <tr>
-                             <td>{{requisitionform.user}} </td> 
-                            <td>{{requisitionform.created_at}} </td>    
+                             <td>{{requisitionform.created_at}} </td> 
+                            <td>{{requisitionform.user}} </td>    
                             <td>{{requisitionform.service_requested}} | {{requisitionform.other_service}}| {{requisitionform.reason_for_request}} </td>    
                             <td>{{requisitionform.reason_for_request}} </td>
                             <td><a href="{% url 'ict-manager-approval' requisitionform.id %}" class="btn btn-primary btn-sm">More <i class="fa fa-eye" aria-hidden="true"></i></a>
