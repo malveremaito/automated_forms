@@ -56,25 +56,30 @@ def insertrequisitionform(request):
             data.save()
 
             
-            #Automated Email Send
+            #Automated Email Send to the user submiting form
             subject = 'RBV Automated Forms'
             template = render_to_string('email_template.html',{'firstname':request.user.first_name,'lastname':request.user.last_name})
             email_from = settings.EMAIL_HOST_USER
-            recipient_list = [request.user.email]
-            send_mail( subject, template, email_from, recipient_list )
+            recipient = [request.user.email]
 
+            send_mail( subject, template, email_from, recipient,fail_silently=False)
+            
           
-            # subject = 'RBV Automated Forms'
-            # template = render_to_string('director_dss/email_template.html',{'firstname':request.user.first_name,'lastname':request.user.last_name})
-            # email_from = settings.EMAIL_HOST_USER
+            # data1 = Role.objects.filter(roles='DSS_Director')
+            # dss_dir_email = data1.user.email
 
-            # for user in user.objects.filter(user.role.roles=='DSS_Director'):
-            #     recipient_list.append(user.email)
+            #Automated Email Send to respective director
             
-            # send_mail( subject, template, email_from, recipient_list )
+            if request.user.department.department=='DSS':
+                subject = 'RBV Automated Forms'
+                template = render_to_string('director_dss/email_template.html',{'firstname':request.user.first_name,'lastname':request.user.last_name})
+                email_from = settings.EMAIL_HOST_USER
+                recipient_list =[]
+                for role in Role.objects.filter(roles='DSS_Director'):
+                    recipient_list.append(role.user.email)
 
-            
-        
+                send_mail( subject, template, email_from, recipient_list,fail_silently=False)
+
             messages.success(request, 'Form Submitted Successfully ')
             return redirect("dashboard")  
 
@@ -211,7 +216,7 @@ def erd_director_approval(request, id):
 #view more details
 @login_required   
 def more(request, id):
-   
+    
     data = ICTRequisitionForm.objects.get(id=id)
     return render(request, 'dashboard_more.html', {"data": data})
 
