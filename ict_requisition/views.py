@@ -68,7 +68,7 @@ def insertrequisitionform(request):
             # data1 = Role.objects.filter(roles='DSS_Director')
             # dss_dir_email = data1.user.email
 
-            #Automated Email Send to respective director
+            #Automated Email Send to DSS Director for staff requesting in DSS department
             
             if request.user.department.department=='DSS':
                 subject = 'RBV Automated Forms'
@@ -79,6 +79,20 @@ def insertrequisitionform(request):
                     recipient_list.append(role.user.email)
 
                 send_mail( subject, template, email_from, recipient_list,fail_silently=False)
+            
+            
+            #Automated Email Send to GOV for staff requesting in GOV department
+            if request.user.department.department=='GOV':
+                subject = 'RBV Automated Forms'
+                template = render_to_string('gov/email_template.html',{'firstname':request.user.first_name,'lastname':request.user.last_name})
+                email_from = settings.EMAIL_HOST_USER
+                recipient_list =[]
+                for role in Role.objects.filter(roles='GOV'):
+                    recipient_list.append(role.user.email)
+
+                send_mail( subject, template, email_from, recipient_list,fail_silently=False)
+            
+            
 
             messages.success(request, 'Form Submitted Successfully ')
             return redirect("dashboard")  
@@ -121,6 +135,32 @@ def dss_director_approval(request, id):
                 t.dss_director_comments = request.POST.get('dss_director_comments')
                 t.dss_dir_decision = request.POST.get('dss_dir_decision')
                 t.save()
+            
+            if t.dss_dir_decision=='Approved':
+                subject = 'RBV Automated Forms'
+                template = render_to_string('director_dss/email_template_approved.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
+                email_from = settings.EMAIL_HOST_USER
+                recipient_list =[t.user.email]
+                send_mail( subject, template, email_from, recipient_list,fail_silently=False)
+
+            #Notify DSS Director about the new ICT Requisition Form Approved by the Gov or DG
+
+                subject1 = 'RBV Automated Forms'
+                template1 = render_to_string('manager_ict/email_template_pending.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
+                email_from = settings.EMAIL_HOST_USER
+                recipient_list1 =[]
+                for role in Role.objects.filter(roles='ICT_Manager'):
+                    recipient_list1.append(role.user.email)
+
+                send_mail( subject1, template1, email_from, recipient_list1,fail_silently=False)
+            
+            if t.dss_dir_decision=='Disapproved':
+                subject = 'RBV Automated Forms'
+                template = render_to_string('director_dss/email_template_disapproved.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
+                email_from = settings.EMAIL_HOST_USER
+                recipient_list =[t.user.email]
+                send_mail( subject, template, email_from, recipient_list,fail_silently=False)
+
             messages.success(request, 'Updated Successfully')
             return redirect("approvals")  
 
@@ -182,6 +222,35 @@ def gov_approval(request, id):
             t.resp_dir_comments = request.POST.get('resp_dir_comments')
             t.resp_dir_decision = request.POST.get('resp_dir_decision')
             t.save() 
+            
+            #Approved sent mail to the requestor
+            if t.resp_dir_decision=='Approved':
+                subject = 'RBV Automated Forms'
+                template = render_to_string('gov/email_template_approved.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
+                email_from = settings.EMAIL_HOST_USER
+                recipient_list =[t.user.email]
+                send_mail( subject, template, email_from, recipient_list,fail_silently=False)
+
+            #Notify DSS Director about the new ICT Requisition Form Approved by the Gov or DG
+
+                subject = 'RBV Automated Forms'
+                template = render_to_string('director_dss/email_template_pending.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
+                email_from = settings.EMAIL_HOST_USER
+                recipient_list1 =[]
+                for role in Role.objects.filter(roles='DSS_Director'):
+                    recipient_list1.append(role.user.email)
+
+                send_mail( subject, template, email_from, recipient_list1,fail_silently=False)
+            
+            #Approved sent mail to the requestor
+            if t.resp_dir_decision=='Disapproved':
+                subject = 'RBV Automated Forms'
+                template = render_to_string('gov/email_template_disapproved.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
+                email_from = settings.EMAIL_HOST_USER
+                recipient_list =[t.user.email]
+
+                send_mail( subject, template, email_from, recipient_list,fail_silently=False)
+
             messages.success(request, 'Updated Successfully')
             return redirect("approvals")  
 
