@@ -18,7 +18,15 @@
 
 <title>ICT Requisition | Approval</title>
 
-<div class="row">   
+
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }}" role="alert">
+{{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span></button>  </div>
+{% endfor %}    
+{% endif %}
+
     
 <div class="card shadow mb-4">
     <div class="card-header py-3">
@@ -27,17 +35,6 @@
     
 </div>
    
-
-
-    {% if messages %}
-    {% for message in messages %}
-    <div class="alert alert-{{ message.tags }}" role="alert">
-    {{ message }}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span></button>  
-    {% endfor %}    
-    {% endif %}
-    </div>
-
     
     <div class="card shadow mb-4">    
         <div class="card-header py-3">
@@ -145,6 +142,7 @@
             </div> 
         </div>
     </div>  
+    
   
     
 
