@@ -244,11 +244,7 @@ def ict_manager_approval(request, id):
                     
                     
             messages.success(request, 'Updated Successfully')
-            return redirect("approvals")
-            
-
-        
-
+            return redirect("approvals")     
 
         else:
 
@@ -517,9 +513,38 @@ def erd_director_approval(request, id):
             t.resp_dir_decision = request.POST.get('resp_dir_decision')
             t.resp_dir_comments = request.POST.get('resp_dir_comments')
             t.save() 
+           
+
+            #Approved sent mail to the requestor
+            if t.resp_dir_decision=='Approved':
+                subject = 'RBV Automated Forms'
+                template = render_to_string('director_erd/email_template_approved.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
+                email_from = settings.EMAIL_HOST_USER
+                recipient_list =[t.user.email]
+                send_mail( subject, template, email_from, recipient_list,fail_silently=False)
+
+            #Notify DSS Director about the new ICT Requisition Form Approved by the Gov or DG
+
+                subject = 'RBV Automated Forms'
+                template = render_to_string('director_dss/email_template_pending.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
+                email_from = settings.EMAIL_HOST_USER
+                recipient_list1 =[]
+                for role in Role.objects.filter(roles='DSS_Director'):
+                    recipient_list1.append(role.user.email)
+
+                send_mail( subject, template, email_from, recipient_list1,fail_silently=False)
+            
+            #Disapproved sent mail to the requestor
+            if t.resp_dir_decision=='Disapproved':
+                subject = 'RBV Automated Forms'
+                template = render_to_string('director_erd/email_template_disapproved.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
+                email_from = settings.EMAIL_HOST_USER
+                recipient_list =[t.user.email]
+
+                send_mail( subject, template, email_from, recipient_list,fail_silently=False)
+            
             messages.success(request, 'Updated Successfully')
             return redirect("approvals")  
-
         else:
 
             return render(request, 'director_erd/more_and_approval.html', {"data": data})
