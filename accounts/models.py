@@ -16,11 +16,11 @@ class Department(models.Model):
     
 
 
-def __str__(self):
-    return self.department
+# def __str__(self):
+#     return self.department
 
-def __str__(self):
-    return self.user 
+# def __str__(self):
+#     return self.user 
 
 class Role(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -29,8 +29,8 @@ class Role(models.Model):
         choices=[('ICT_Manager','ICT Manager'),('DSS_Director','DSS Director'),('FRD_Director','FRD Director'),('FMD_Director','FMD Director'),('ERD_Director','ERD Director'),('GOV','GOV'),('Staff','Staff')]
     )
     
-def __str__(self):
-    return self.user.username
+# def __str__(self):
+#     return self.user.username
 
 
 
