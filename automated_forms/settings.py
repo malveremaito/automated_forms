@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-*d0evx_fnxyidp(bn)h@+e!06cxu#dcuetvatk39l0w%!(y6-t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['10.0.142.51', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -144,3 +144,6 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'noreplyautomate0@gmail.com'
 EMAIL_HOST_PASSWORD = 'Vila21***'
+
+
+
