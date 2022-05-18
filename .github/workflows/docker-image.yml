@@ -15,6 +15,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build .--file Dockerfile --tag ijn35807/docker-image-autobuild:latest
+      run: docker build . --file Dockerfile --tag mveremaito/docker-image-autobuild:latest
     - name: Push the Docker image
-      run: docker login -u ijn35807 -p ${{ secrets.DOCKER_KEY }} && docker push ijn35807/docker-image-autobuild:latest
+      run: docker login -u mveremaito -p ${{ secrets.DOCKER_KEY }} && docker push mveremaito/docker-image-autobuild:latest
