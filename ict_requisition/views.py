@@ -1,3 +1,4 @@
+import django
 from django.shortcuts import render
 
 # Create your views here.
@@ -14,6 +15,7 @@ from .models import ICTRequisitionForm
 from django.core.mail import send_mail
 from django.conf import settings
 from django.template.loader import render_to_string
+django.utils.timezone.now
 # Create your views here.
 
 
@@ -59,7 +61,7 @@ def insertrequisitionform(request):
             #Automated Email Send to the user submiting form
             subject = 'RBV Automated Forms'
             template = render_to_string('email_template.html',{'firstname':request.user.first_name,'lastname':request.user.last_name})
-            email_from = settings.EMAIL_HOST_USER
+            email_from = settings.DEFAULT_FROM_EMAIL
             recipient = [request.user.email]
 
             send_mail( subject, template, email_from, recipient,fail_silently=False)
@@ -153,6 +155,15 @@ def ict_manager_approval(request, id):
                     recipient_list1.append(role.user.email)
                 send_mail( subject1, template1, email_from, recipient_list1,fail_silently=False)
 
+                #Notify ICT Team about the requisition
+
+                # subject2 = 'RBV Automated Forms Test'
+                # template2 = render_to_string('manager_ict/email_template_approved_ict.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
+                # email_from = settings.EMAIL_HOST_USER
+                # recipient_list ='ict@rbv.gov.vu'
+                # send_mail( subject, template, email_from, recipient_list,fail_silently=False)
+
+                #Notify GOV Director about the status of the ICT requisition form a staff in his department has request.
                 if t.department=='GOV':
                     subject2 = 'RBV Automated Forms'
                     template2 = render_to_string('manager_ict/email_template_approved_gov.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
@@ -171,7 +182,7 @@ def ict_manager_approval(request, id):
                     for role in Role.objects.filter(roles='FRD_Director'):
                         recipient_list3.append(role.user.email)
                     send_mail( subject3, template3, email_from, recipient_list3,fail_silently=False)
-                
+                #Notify FMD Director about the status of the ICT requisition form a staff in his department has request.
                 if t.department=='FMD':
                     subject4 = 'RBV Automated Forms'
                     template4 = render_to_string('manager_ict/email_template_approved_fmd.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
@@ -180,7 +191,7 @@ def ict_manager_approval(request, id):
                     for role in Role.objects.filter(roles='FMD_Director'):
                         recipient_list4.append(role.user.email)
                     send_mail( subject4, template4, email_from, recipient_list4,fail_silently=False)
-
+                #Notify ERD Director about the status of the ICT requisition form a staff in his department has request.
                 if t.department=='ERD':
                     subject5 = 'RBV Automated Forms'
                     template5 = render_to_string('manager_ict/email_template_approved_erd.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
@@ -189,6 +200,7 @@ def ict_manager_approval(request, id):
                     for role in Role.objects.filter(roles='ERD_Director'):
                         recipient_list5.append(role.user.email)
                     send_mail( subject5, template5, email_from, recipient_list5,fail_silently=False)
+                
 
             if t.manager_ict_decision=='Disapproved':
                 subject = 'RBV Automated Forms'
