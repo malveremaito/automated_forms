@@ -58,17 +58,35 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#DSS"
-                    aria-expanded="true" aria-controls="DSS">
-                    <i class="fas fa fa-wpforms"></i>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#ICT"
+                    aria-expanded="true" aria-controls="ICT">
+                    <i class="fas fa fa-wpforms "></i>
                     <span>ICT Requisition</span>
                 </a>
-                <div id="DSS" class="collapse" aria-labelledby="DSS" data-parent="#accordionSidebar">
+                <div id="ICT" class="collapse" aria-labelledby="ICT" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">DSS Components:</h6>
+                        <h6 class="collapse-header">ICT Components</h6>
                         <a class="collapse-item" href="{% url 'dashboard' %}">Dashboard</a>
                         <a class="collapse-item" href="{% url 'ict-requisition-form' %}">Form</a>
-                        <a class="collapse-item" href="{% url 'approvals' %}">Approval</a>
+                        <a class="collapse-item" href="{% url 'authorization' %}">Authorization</a>
+                        <a class="collapse-item" href="{% url 'approved' %}">View Approved</a>
+                    </div>
+                </div>
+            </li>
+
+             <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#Afterhrs"
+                    aria-expanded="true" aria-controls="Afterhrs">
+                    <i class="fas fa-clock "></i>
+                    <span>After Hours</span>
+                </a>
+                <div id="Afterhrs" class="collapse" aria-labelledby="Afterhrs" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">After Hours Components</h6>
+                        <a class="collapse-item" href="{% url 'dashboard' %}">Dashboard</a>
+                        <a class="collapse-item" href="{% url 'ict-requisition-form' %}">Form</a>
+                        <a class="collapse-item" href="{% url 'authorization' %}">Authorization</a>
+                        <a class="collapse-item" href="{% url 'authorization' %}">View Approved</a>
                     </div>
                 </div>
             </li>

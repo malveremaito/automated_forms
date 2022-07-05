@@ -566,7 +566,7 @@ def erd_director_approval(request, id):
 
 
 #view more details
-@login_required   
+@login_required    
 def more(request, id):
     
     data = ICTRequisitionForm.objects.get(id=id)
@@ -577,6 +577,7 @@ def more(request, id):
 def userdashboard(request):
     requisitionforms = ICTRequisitionForm.objects.filter(user_id = request.user.id)
     totalrequests = ICTRequisitionForm.objects.filter(user_id = request.user.id).count()  
+    # pendingrequests = ICTRequisitionForm.objects.filter (user_id = request.user.id,resp_dir_decision="Pending",dss_dir_decision="Pending",manager_ict_decision="Pending").count()  
     approvedrequest = ICTRequisitionForm.objects.filter(user_id = request.user.id,resp_dir_decision="Approved",dss_dir_decision="Approved",manager_ict_decision="Approved").count()  
     return render(request,"dashboard.html",{'requisitionforms':requisitionforms,'totalrequests':totalrequests,'approvedrequest':approvedrequest})
 
@@ -589,7 +590,7 @@ def userdashboard(request):
 
 #Manager
 @login_required
-def approvals(request):
+def authorization(request):
 
     if request.user.role.roles == "ICT_Manager":
         requisitionforms = ICTRequisitionForm.objects.filter(resp_dir_decision="Approved",dss_dir_decision="Approved") 
@@ -625,4 +626,33 @@ def approvals(request):
     
     else:
         return render(request,"unathorized.html")
+
+@login_required   
+def ict_manager_approval_pdf(request,id):
+    if request.user.role.roles == "ICT_Manager":    
+        data = ICTRequisitionForm.objects.get(id=id)
+    
+        return render(request, 'manager_ict/pdfview.html', {"data": data})
+    else:
+        return render(request,"unathorized.html")
+
+
         
+@login_required
+def more_user_pdf(request,id):
+    if request.user.role.roles == "ICT_Manager":    
+        data = ICTRequisitionForm.objects.get(id=id)
+    
+        return render(request, 'pdfview.html', {"data": data})
+    else:
+        return render(request,"unathorized.html")
+
+
+@login_required
+def approved(request):
+
+    if request.user.groups.filter(name='ICT'):
+        requisitionforms = ICTRequisitionForm.objects.filter(resp_dir_decision="Approved",dss_dir_decision="Approved",manager_ict_decision="Approved") 
+        return render(request,"staff_ict/dashboard.html",{'requisitionforms':requisitionforms})
+    else:
+        return render(request,"unathorized.html")

@@ -28,17 +28,18 @@
     <!-- header -->
     <div class="card-header py-3 ">
       <h6 class="m-0 font-weight-bold text-primary"><i class='fas fa-file-alt'></i> Requisition Form
-      <a href="{% url 'approvals' %}" class="btn btn-success btn-sm float-right">Export PDF <i class="fa fa-download" aria-hidden="true"></i></a>
+     
+      <a href="{% url 'authorization' %}" class="btn btn-primary btn-sm float-right">Go Back <i class="fa fa-chevron-circle-left" aria-hidden="true"></i></a>
+
     </h6>
 
     
     </div>
 
      <!-- Form Body start -->
-    <div class="card-body">
+    <div class="card-body" id="requisitionbody">
       <div class="col-md-auto">
         <label > <strong>DATE & TIME LODGED:  </strong><p class="mb-2 bg-gradient-primary text-white"> {{data.created_at}} </p></label>
-        <a href="{% url 'approvals' %}" class="btn btn-primary btn-sm float-right">Go Back <i class="fa fa-chevron-circle-left" aria-hidden="true"></i></a>
       </div>
 
         <div class="col-md-auto row-md-auto">
@@ -146,14 +147,17 @@
           <label for="reason_for_request" class="form-label"><strong>DSS DIR COMMENTS:</strong></label>
           <i> {{data.dss_director_comments}}</i>
         </div>
-      
-        
+
+        <div class="col-md-auto">
+          <label for="reason_for_request" class="form-label"><strong>ICT MANAGER COMMENTS:</strong></label>
+          <i> {{data.manager_ict_comments}}</i>
+        </div>
+
+        </div>
+        <div class="card-body">
         <form id="form" method="POST" action = "">
           {% csrf_token %}
-          <div class="col-md-auto">
-            <label for="reason_for_request" class="form-label"><strong>ICT MANAGER COMMENTS:</strong></label>
-            <i> {{data.manager_ict_comments}}</i>
-          </div>
+        
 
           <div class="col-md-auto">
             <input type="text" id="manager_ict_comments" name="manager_ict_comments" placeholder="ICT Manager Comments"style="height:60; width:600px;" required>
@@ -170,8 +174,10 @@
     </div>
   </div>
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
 
 <script src="{% static 'css/js/sweetalert.min.js' %}"></script>
 <script>
@@ -187,6 +193,7 @@ $(document).ready(function(){
    });
 });
   
+
 </script>
 </html>
 {% endblock %}
