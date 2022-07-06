@@ -178,7 +178,7 @@
                            
                             <td>{{requisitionform.service_requested}} | {{requisitionform.other_service}} </td>    
                             <td>{{requisitionform.reason_for_request}} </td>  
-                            <td><a href="{% url 'more-user-pdf' requisitionform.id %}" class="btn btn-primary btn-sm">More <i class="fa fa-eye" aria-hidden="true"></i></a>  <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button></td>
+                            <td><a href="{% url 'more-user-pdf' requisitionform.id %}" class="btn btn-white btn-sm"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>  <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button></td>
                             <td>
                                 {% if requisitionform.resp_dir_decision == "Pending" %}
                                     <span class="badge badge-warning">Pending</span>

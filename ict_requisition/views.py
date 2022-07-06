@@ -651,7 +651,7 @@ def more_user_pdf(request,id):
 @login_required
 def approved(request):
 
-    if request.user.groups.filter(name='ICT'):
+    if request.user.groups.filter(name='ICT_Unit'):
         requisitionforms = ICTRequisitionForm.objects.filter(resp_dir_decision="Approved",dss_dir_decision="Approved",manager_ict_decision="Approved") 
         return render(request,"staff_ict/dashboard.html",{'requisitionforms':requisitionforms})
     else:
