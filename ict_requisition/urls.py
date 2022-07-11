@@ -7,7 +7,7 @@ urlpatterns = [
     path('authorization', views.authorization, name='authorization'),
     path('approved', views.approved, name='approved'),
     
-    path('more-approval-pdf/<int:id>', views.more_user_pdf, name='more-user-pdf'),
+    path('more-user-pdf/<int:id>', views.more_user_pdf, name='more-user-pdf'),
     path('more/<int:id>', views.more, name='more'),
 
 
@@ -24,8 +24,10 @@ urlpatterns = [
     path('ict-manager-approval/<int:id>', views.ict_manager_approval, name='ict-manager-approval'),
 
     #PDF View
+#####################################################################################################  
+    path('more-authorization-pdf/<int:id>', views.more_authorization_pdf, name='more-authorization-pdf'),
+    path('more-approved-pdf/<int:id>', views.more_approved_pdf, name='more-approved-pdf'),
 
-    path('ict-manager-approval-pdf/<int:id>', views.ict_manager_approval_pdf, name='more-approval-pdf'),
 #####################################################################################################  
 
 #DSS Director Approval#

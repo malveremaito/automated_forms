@@ -60,6 +60,8 @@
                             <td>{{requisitionform.service_requested}} | {{requisitionform.other_service}} </td>  
                             <td>{{requisitionform.reason_for_request}}</td>  
                             <td><a href="{% url 'frd-director-approval' requisitionform.id %}" class="btn btn-white btn-sm"> <i class="fa fa-sliders" aria-hidden="true"></i></a>
+                                <a href="{% url 'more-user-pdf' requisitionform.id %}" class="btn btn-white btn-sm"> <i class="fa fa-print" aria-hidden="true"></i></a>                            
+
                             </td>
                             <td>
                                

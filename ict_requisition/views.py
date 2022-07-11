@@ -256,7 +256,7 @@ def ict_manager_approval(request, id):
                     
                     
             messages.success(request, 'Updated Successfully')
-            return redirect("approvals")     
+            return redirect("authorization")     
 
         else:
 
@@ -388,7 +388,7 @@ def dss_director_approval(request, id):
                 
 
             messages.success(request, 'Updated Successfully')
-            return redirect("approvals")  
+            return redirect("authorization")  
 
         else:
 
@@ -403,18 +403,48 @@ def fmd_director_approval(request, id):
     if request.user.role.roles == "FMD_Director":
 
         data = ICTRequisitionForm.objects.get(id=id)
-        
+        t = ICTRequisitionForm.objects.get(id=id)
         if request.method == 'POST':
-            t = ICTRequisitionForm.objects.get(id=id)
+           
             t.resp_dir_comments = request.POST.get('resp_dir_comments')
             t.resp_dir_decision = request.POST.get('resp_dir_decision')
             t.save() 
-            messages.success(request, 'Updated Successfully')
-            return redirect("approvals")  
 
+            #Approved sent mail to the requestor
+            if t.resp_dir_decision=='Approved':
+                subject = 'RBV Automated Forms'
+                template = render_to_string('director_fmd/email_template_approved.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
+                email_from = settings.EMAIL_HOST_USER
+                recipient_list =[t.user.email]
+                send_mail( subject, template, email_from, recipient_list,fail_silently=False)
+
+            #Notify DSS Director about the new ICT Requisition Form Approved by FMD Director
+
+                subject1 = 'RBV Automated Forms'
+                template1 = render_to_string('director_dss/email_template_pending.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
+                email_from = settings.EMAIL_HOST_USER
+                recipient_list1 =[]
+                for role in Role.objects.filter(roles='DSS_Director'):
+                    recipient_list1.append(role.user.email)
+
+                send_mail( subject1, template1, email_from, recipient_list1,fail_silently=False)
+           
+           
+
+            #Disapproved sent mail to the requestor
+            if t.resp_dir_decision=='Disapproved':
+                subject = 'RBV Automated Forms'
+                template = render_to_string('director_fmd/email_template_disapproved.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
+                email_from = settings.EMAIL_HOST_USER
+                recipient_list =[t.user.email]
+
+                send_mail( subject, template, email_from, recipient_list,fail_silently=False)
+            messages.success(request, 'Updated Successfully') 
+            return redirect("authorization") 
+           
         else:
 
-            return render(request, 'director_fmd/more_and_approval.html', {"data": data})
+            return render(request, 'director_fmd/more_and_approval.html', {"data": data,'t':t})
     else:
         return render(request,"unathorized.html")
 
@@ -457,7 +487,7 @@ def frd_director_approval(request, id):
 
                 send_mail( subject, template, email_from, recipient_list,fail_silently=False)
             messages.success(request, 'Updated Successfully')
-            return redirect("approvals")  
+            return redirect("authorization")  
 
         else:
 
@@ -506,7 +536,7 @@ def gov_approval(request, id):
                 send_mail( subject, template, email_from, recipient_list,fail_silently=False)
 
             messages.success(request, 'Updated Successfully')
-            return redirect("approvals")  
+            return redirect("authorization")  
 
         else:
 
@@ -556,7 +586,7 @@ def erd_director_approval(request, id):
                 send_mail( subject, template, email_from, recipient_list,fail_silently=False)
             
             messages.success(request, 'Updated Successfully')
-            return redirect("approvals")  
+            return redirect("authorization")  
         else:
 
             return render(request, 'director_erd/more_and_approval.html', {"data": data})
@@ -577,9 +607,17 @@ def more(request, id):
 def userdashboard(request):
     requisitionforms = ICTRequisitionForm.objects.filter(user_id = request.user.id)
     totalrequests = ICTRequisitionForm.objects.filter(user_id = request.user.id).count()  
-    # pendingrequests = ICTRequisitionForm.objects.filter (user_id = request.user.id,resp_dir_decision="Pending",dss_dir_decision="Pending",manager_ict_decision="Pending").count()  
-    approvedrequest = ICTRequisitionForm.objects.filter(user_id = request.user.id,resp_dir_decision="Approved",dss_dir_decision="Approved",manager_ict_decision="Approved").count()  
-    return render(request,"dashboard.html",{'requisitionforms':requisitionforms,'totalrequests':totalrequests,'approvedrequest':approvedrequest})
+    
+    pendingrequests = (ICTRequisitionForm.objects.filter (user_id = request.user.id,resp_dir_decision="Pending") | ICTRequisitionForm.objects.filter (user_id = request.user.id,resp_dir_decision="Approved",dss_dir_decision="Pending") 
+        | ICTRequisitionForm.objects.filter (user_id = request.user.id,resp_dir_decision="Approved",dss_dir_decision="Approved",manager_ict_decision="Pending")).count() 
+   
+    approvedrequest = ICTRequisitionForm.objects.filter(user_id = request.user.id,resp_dir_decision="Approved",dss_dir_decision="Approved",manager_ict_decision="Approved").count() 
+   
+    disapprovedrequest = (ICTRequisitionForm.objects.filter (user_id = request.user.id,resp_dir_decision="Disapproved") | ICTRequisitionForm.objects.filter (user_id = request.user.id,dss_dir_decision="Disapproved")
+    | ICTRequisitionForm.objects.filter (user_id = request.user.id,manager_ict_decision ="Disapproved")).count() 
+
+
+    return render(request,"dashboard.html",{'requisitionforms':requisitionforms,'totalrequests':totalrequests,'approvedrequest':approvedrequest,'pendingrequests':pendingrequests,'disapprovedrequest':disapprovedrequest})
 
 
 # @login_required
@@ -628,24 +666,29 @@ def authorization(request):
         return render(request,"unathorized.html")
 
 @login_required   
-def ict_manager_approval_pdf(request,id):
-    if request.user.role.roles == "ICT_Manager":    
-        data = ICTRequisitionForm.objects.get(id=id)
+def more_authorization_pdf(request,id):
+   
+    data = ICTRequisitionForm.objects.get(id=id)
     
-        return render(request, 'manager_ict/pdfview.html', {"data": data})
-    else:
-        return render(request,"unathorized.html")
+    return render(request, 'manager_ict/pdfview.html', {"data": data})
 
+
+@login_required   
+def more_approved_pdf(request,id):
+   
+    data = ICTRequisitionForm.objects.get(id=id)
+    
+    return render(request, 'staff_ict/pdfview.html', {"data": data})
+ 
 
         
 @login_required
 def more_user_pdf(request,id):
-    if request.user.role.roles == "ICT_Manager":    
-        data = ICTRequisitionForm.objects.get(id=id)
+   
+    data = ICTRequisitionForm.objects.get(id=id)
     
-        return render(request, 'pdfview.html', {"data": data})
-    else:
-        return render(request,"unathorized.html")
+    return render(request, 'pdfview.html', {"data": data})
+  
 
 
 @login_required

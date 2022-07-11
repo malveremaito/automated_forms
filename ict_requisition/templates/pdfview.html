@@ -60,34 +60,15 @@
       &nbsp;EMAIL: rbvinfo@rbv.gov.vu <br>
       &nbsp;WEBSITE: www.rbv.gov.vu </p>
       
-      <div class="col-md-auto">
-        <label > <strong>DATE & TIME LODGED:  </strong><p class="mb-2 bg-gradient-primary text-white"> {{data.created_at}} </p></label>
+    <div class="col-md-auto">
+        <label > <strong style="color:black;">REQ ID:  </strong> {{data.id}} </label>
     </div>
 
+    <div class="col-md-auto">
+      <label > <strong style="color:black;">DATE & TIME LODGED:  </strong><p class="mb-2 bg-gradient-primary text-white"> {{data.created_at}} </p></label>
+  </div>
+
       <div class="row-md-auto col-md-auto  ">
-        <label for="reason_for_request" class="form-label" style="color:black;"><strong>ICT MANAGER DECISION:</strong></label>
-        
-        {% if data.manager_ict_decision == "Pending" %}
-                          <span class="badge badge-warning">Pending</span>
-        {% elif data.manager_ict_decision == "Disapproved" %}
-                          <span class="badge badge-danger">Disapproved</span>   
-        {% elif data.manager_ict_decision == "Approved" %}
-                          <span class="badge badge-success">Approved</span>               
-        {% endif %}
-        
-     
-  
-      
-     
-        <label for="reason_for_request" class="form-label" style="color:black;"><strong>DSS DIR DECISION:</strong></label>
-        
-        {% if data.dss_dir_decision == "Pending" %}
-                          <span class="badge badge-warning">Pending</span>
-        {% elif data.dss_dir_decision == "Disapproved" %}
-                          <span class="badge badge-danger">Disapproved</span>   
-        {% elif data.dss_dir_decision == "Approved" %}
-                          <span class="badge badge-success">Approved</span>               
-        {% endif %}
         
       
   
@@ -99,6 +80,26 @@
         {% elif data.resp_dir_decision == "Disapproved" %}
                           <span class="badge badge-danger">Disapproved</span>   
         {% elif data.resp_dir_decision == "Approved" %}
+                          <span class="badge badge-success">Approved</span>               
+        {% endif %}
+        
+        <label for="reason_for_request" class="form-label" style="color:black;"><strong>DSS DIR DECISION:</strong></label>
+        
+        {% if data.dss_dir_decision == "Pending" %}
+                          <span class="badge badge-warning">Pending</span>
+        {% elif data.dss_dir_decision == "Disapproved" %}
+                          <span class="badge badge-danger">Disapproved</span>   
+        {% elif data.dss_dir_decision == "Approved" %}
+                          <span class="badge badge-success">Approved</span>               
+        {% endif %}
+
+        <label for="reason_for_request" class="form-label" style="color:black;"><strong>ICT MANAGER DECISION:</strong></label>
+        
+        {% if data.manager_ict_decision == "Pending" %}
+                          <span class="badge badge-warning">Pending</span>
+        {% elif data.manager_ict_decision == "Disapproved" %}
+                          <span class="badge badge-danger">Disapproved</span>   
+        {% elif data.manager_ict_decision == "Approved" %}
                           <span class="badge badge-success">Approved</span>               
         {% endif %}
         

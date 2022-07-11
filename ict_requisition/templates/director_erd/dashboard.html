@@ -61,7 +61,9 @@
                            
                             <td>{{requisitionform.service_requested}} | {{requisitionform.other_service}} </td>  
                             <td>{{requisitionform.reason_for_request}}</td>  
-                            <td><a href="{% url 'erd-director-approval' requisitionform.id %}" class="btn btn-primary btn-sm">More <i class="fa fa-eye" aria-hidden="true"></i></a>
+                            <td><a href="{% url 'erd-director-approval' requisitionform.id %}" class="btn btn-white btn-sm"><i class="fa fa fa-sliders" aria-hidden="true"></i></a>
+                                <a href="{% url 'more-authorization-pdf' requisitionform.id %}" class="btn btn-white btn-sm"> <i class="fa fa-print" aria-hidden="true"></i></a>                            
+
                             </td>
                             <td>
                                

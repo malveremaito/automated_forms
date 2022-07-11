@@ -68,7 +68,9 @@
                               
                             <td>{{requisitionform.service_requested}} | {{requisitionform.other_service}} </td>   
                             <td>{{requisitionform.reason_for_request}} </td> 
-                            <td><a href="{% url 'dss-director-approval' requisitionform.id %}" class="btn btn-primary btn-sm">More <i class="fa fa-eye" aria-hidden="true"></i></a>
+                            <td><a href="{% url 'dss-director-approval' requisitionform.id %}" class="btn btn-white btn-sm"> <i class="fa fa-sliders" aria-hidden="true"></i></a>
+                                <a href="{% url 'more-authorization-pdf' requisitionform.id %}" class="btn btn-white btn-sm"> <i class="fa fa-print" aria-hidden="true"></i></a>                            
+
                             </td>
                             <td>
                                
@@ -120,7 +122,9 @@
                             <td>{{otherdepartment.user}} </td>  
                             <td>{{otherdepartment.service_requested}} | {{otherdepartment.other_service}} </td>    
                             <td>{{otherdepartment.reason_for_request}} </td>  
-                            <td><a href="{% url 'dss-director-approval' otherdepartment.id %}" class="btn btn-primary btn-sm">More <i class="fa fa-eye" aria-hidden="true"></i></a>
+                            <td><a href="{% url 'dss-director-approval' otherdepartment.id %}" class="btn btn-white btn-sm"> <i class="fa fa fa-sliders" aria-hidden="true"></i></a>
+                                <a href="{% url 'more-authorization-pdf' otherdepartment.id %}" class="btn btn-white btn-sm"> <i class="fa fa-print" aria-hidden="true"></i></a>                            
+
                             </td>
                             <td>
                                
