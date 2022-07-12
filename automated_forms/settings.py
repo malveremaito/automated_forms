@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'home',
     'ict_requisition',
     'accounts.apps.AccountsConfig',
+    'import_export',
 ]
 
 MIDDLEWARE = [

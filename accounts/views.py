@@ -10,7 +10,7 @@ from django.contrib import messages
 # Create your views here.
 
 
-
+#Login
 def login_user(request):
     if request.method =="POST":
         username = request.POST['username']
@@ -26,20 +26,14 @@ def login_user(request):
     else:
         return render(request,'registration/login.html',{})
 
-
+#logout
 def logout_user(request):
     logout(request)
     messages.success(request, ("You were logged out! "))
     return redirect ('login')
 
-
+#Change Password
 def change_password(request):
     return render(request,'change_password.html')
 
         
-
-    
-
-
-# def index(request):
-#     return HttpResponse("Hello World")

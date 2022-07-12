@@ -10,7 +10,7 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from accounts.models import Department, Role
+from accounts.models import Department, Role, Unit
 from .models import ICTRequisitionForm 
 from django.core.mail import send_mail
 from django.conf import settings
@@ -19,6 +19,13 @@ django.utils.timezone.now
 # Create your views here.
 
 
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
 
 
 #view / fill/ requisitionform   
@@ -59,7 +66,7 @@ def insertrequisitionform(request):
 
             
             #Automated Email Send to the user submiting form
-            subject = 'RBV Automated Forms'
+            subject = 'ICT Requisition'
             template = render_to_string('email_template.html',{'firstname':request.user.first_name,'lastname':request.user.last_name})
             email_from = settings.DEFAULT_FROM_EMAIL
             recipient = [request.user.email]
@@ -73,7 +80,7 @@ def insertrequisitionform(request):
             #Automated Email Send to DSS Director for staff requesting in DSS department
             
             if request.user.department.department=='DSS':
-                subject1 = 'RBV Automated Forms'
+                subject1 = 'ICT Requisition'
                 template1 = render_to_string('director_dss/email_template.html',{'firstname':request.user.first_name,'lastname':request.user.last_name})
                 email_from = settings.EMAIL_HOST_USER
                 recipient_list1 =[]
@@ -83,7 +90,7 @@ def insertrequisitionform(request):
                 send_mail( subject1, template1, email_from, recipient_list1,fail_silently=False)    
             #Automated Email Send to GOV for staff requesting in GOV department
             if request.user.department.department=='GOV':
-                subject2 = 'RBV Automated Forms'
+                subject2 = 'ICT Requisition'
                 template2 = render_to_string('gov/email_template_pending.html',{'firstname':request.user.first_name,'lastname':request.user.last_name})
                 email_from = settings.EMAIL_HOST_USER
                 recipient_list2 =[]
@@ -93,7 +100,7 @@ def insertrequisitionform(request):
                 send_mail( subject2, template2, email_from, recipient_list2,fail_silently=False)      
             #Automated Email Send to FRD for staff requesting in FRD department
             if request.user.department.department=='FRD':
-                subject3 = 'RBV Automated Forms'
+                subject3 = 'ICT Requisition'
                 template3 = render_to_string('director_frd/email_template_pending.html',{'firstname':request.user.first_name,'lastname':request.user.last_name})
                 email_from = settings.EMAIL_HOST_USER
                 recipient_list3 =[]
@@ -103,7 +110,7 @@ def insertrequisitionform(request):
                 send_mail( subject3, template3, email_from, recipient_list3,fail_silently=False)       
             #Automated Email Send to ERD Director for staff requesting in ERD department
             if request.user.department.department=='ERD':
-                subject4 = 'RBV Automated Forms'
+                subject4 = 'ICT Requisition'
                 template4 = render_to_string('director_erd/email_template_pending.html',{'firstname':request.user.first_name,'lastname':request.user.last_name})
                 email_from = settings.EMAIL_HOST_USER
                 recipient_list4 =[]
@@ -114,7 +121,7 @@ def insertrequisitionform(request):
 
             #Automated Email Send to FMD Director for staff requesting in FMD department
             if request.user.department.department=='FMD':
-                subject5 = 'RBV Automated Forms'
+                subject5 = 'ICT Requisition'
                 template5 = render_to_string('director_fmd/email_template_pending.html',{'firstname':request.user.first_name,'lastname':request.user.last_name})
                 email_from = settings.EMAIL_HOST_USER
                 recipient_list5 =[]
@@ -140,14 +147,14 @@ def ict_manager_approval(request, id):
 
             #if Approved notify the requestor
             if t.manager_ict_decision=='Approved':
-                subject = 'RBV Automated Forms'
+                subject = 'ICT Requisition'
                 template = render_to_string('manager_ict/email_template_approved.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
                 email_from = settings.EMAIL_HOST_USER
                 recipient_list =[t.user.email]
                 send_mail( subject, template, email_from, recipient_list,fail_silently=False)
             
                 #if Approved notify the DSS Director
-                subject1 = 'RBV Automated Forms'
+                subject1 = 'ICT Requisition'
                 template1 = render_to_string('manager_ict/email_template_approved_dss.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
                 email_from = settings.EMAIL_HOST_USER
                 recipient_list1 =[]
@@ -155,17 +162,20 @@ def ict_manager_approval(request, id):
                     recipient_list1.append(role.user.email)
                 send_mail( subject1, template1, email_from, recipient_list1,fail_silently=False)
 
-                #Notify ICT Team about the requisition
+                #Notify ICT Team about the requisition when it has been approved
 
-                # subject2 = 'RBV Automated Forms Test'
-                # template2 = render_to_string('manager_ict/email_template_approved_ict.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
-                # email_from = settings.EMAIL_HOST_USER
-                # recipient_list ='ict@rbv.gov.vu'
-                # send_mail( subject, template, email_from, recipient_list,fail_silently=False)
+                subject6 = 'ICT Requisition Test'
+                template6 = render_to_string('manager_ict/email_template_approved_ict.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
+                email_from = settings.EMAIL_HOST_USER
+                recipient_list6 =[]
+                for unit in Unit.objects.filter(unit='ICT_Unit'):
+                    recipient_list6.append(unit.user.email)
+
+                send_mail( subject6, template6, email_from, recipient_list6,fail_silently=False)
 
                 #Notify GOV Director about the status of the ICT requisition form a staff in his department has request.
                 if t.department=='GOV':
-                    subject2 = 'RBV Automated Forms'
+                    subject2 = 'ICT Requisition'
                     template2 = render_to_string('manager_ict/email_template_approved_gov.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
                     email_from = settings.EMAIL_HOST_USER
                     recipient_list2 =[]
@@ -175,7 +185,7 @@ def ict_manager_approval(request, id):
                               
                 #Notify FRD Director about the status of the ICT requisition form a staff in his department has request.
                 if t.department=='FRD':
-                    subject3 = 'RBV Automated Forms'
+                    subject3 = 'ICT Requisition'
                     template3 = render_to_string('manager_ict/email_template_approved_frd.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
                     email_from = settings.EMAIL_HOST_USER
                     recipient_list3 =[]
@@ -184,7 +194,7 @@ def ict_manager_approval(request, id):
                     send_mail( subject3, template3, email_from, recipient_list3,fail_silently=False)
                 #Notify FMD Director about the status of the ICT requisition form a staff in his department has request.
                 if t.department=='FMD':
-                    subject4 = 'RBV Automated Forms'
+                    subject4 = 'ICT Requisition'
                     template4 = render_to_string('manager_ict/email_template_approved_fmd.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
                     email_from = settings.EMAIL_HOST_USER
                     recipient_list4 =[]
@@ -193,7 +203,7 @@ def ict_manager_approval(request, id):
                     send_mail( subject4, template4, email_from, recipient_list4,fail_silently=False)
                 #Notify ERD Director about the status of the ICT requisition form a staff in his department has request.
                 if t.department=='ERD':
-                    subject5 = 'RBV Automated Forms'
+                    subject5 = 'ICT Requisition'
                     template5 = render_to_string('manager_ict/email_template_approved_erd.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
                     email_from = settings.EMAIL_HOST_USER
                     recipient_list5 =[]
@@ -203,13 +213,13 @@ def ict_manager_approval(request, id):
                 
 
             if t.manager_ict_decision=='Disapproved':
-                subject = 'RBV Automated Forms'
+                subject = 'ICT Requisition'
                 template = render_to_string('manager_ict/email_template_disapproved.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
                 email_from = settings.EMAIL_HOST_USER
                 recipient_list =[t.user.email]
                 send_mail( subject, template, email_from, recipient_list,fail_silently=False)
 
-                subject1 = 'RBV Automated Forms'
+                subject1 = 'ICT Requisition'
                 template1 = render_to_string('manager_ict/email_template_disapproved_dss.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
                 email_from = settings.EMAIL_HOST_USER
                 recipient_list1 =[]
@@ -218,7 +228,7 @@ def ict_manager_approval(request, id):
                 send_mail( subject1, template1, email_from, recipient_list1,fail_silently=False)
 
                 if t.department=='GOV':
-                    subject2 = 'RBV Automated Forms'
+                    subject2 = 'ICT Requisition'
                     template2 = render_to_string('manager_ict/email_template_disapproved_gov.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
                     email_from = settings.EMAIL_HOST_USER
                     recipient_list2 =[]
@@ -228,7 +238,7 @@ def ict_manager_approval(request, id):
                 
                 #Notify FRD Director about the status of the ICT requisition form a staff in his department has request.
                 if t.department=='FRD':
-                    subject3 = 'RBV Automated Forms'
+                    subject3 = 'ICT Requisition'
                     template3 = render_to_string('manager_ict/email_template_disapproved_frd.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
                     email_from = settings.EMAIL_HOST_USER
                     recipient_list3 =[]
@@ -237,7 +247,7 @@ def ict_manager_approval(request, id):
                     send_mail( subject3, template3, email_from, recipient_list3,fail_silently=False)
                 
                 if t.department=='FMD':
-                    subject4 = 'RBV Automated Forms'
+                    subject4 = 'ICT Requisition'
                     template4 = render_to_string('manager_ict/email_template_disapproved_fmd.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
                     email_from = settings.EMAIL_HOST_USER
                     recipient_list4 =[]
@@ -246,7 +256,7 @@ def ict_manager_approval(request, id):
                     send_mail( subject4, template4, email_from, recipient_list4,fail_silently=False)
 
                 if t.department=='ERD':
-                    subject5 = 'RBV Automated Forms'
+                    subject5 = 'ICT Requisition'
                     template5 = render_to_string('manager_ict/email_template_disapproved_erd.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
                     email_from = settings.EMAIL_HOST_USER
                     recipient_list5 =[]
@@ -284,7 +294,7 @@ def dss_director_approval(request, id):
                 t.save()
             
             if t.dss_dir_decision=='Approved':
-                subject = 'RBV Automated Forms'
+                subject = 'ICT Requisition'
                 template = render_to_string('director_dss/email_template_approved.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
                 email_from = settings.EMAIL_HOST_USER
                 recipient_list =[t.user.email]
@@ -292,7 +302,7 @@ def dss_director_approval(request, id):
 
             #Email sent to notify ict manager about that dss director has approved a requisition form and pending ict manager approval
 
-                subject1 = 'RBV Automated Forms'
+                subject1 = 'ICT Requisition'
                 template1 = render_to_string('manager_ict/email_template_pending.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
                 email_from = settings.EMAIL_HOST_USER
                 recipient_list1 =[]
@@ -303,7 +313,7 @@ def dss_director_approval(request, id):
 
                 #Notify Governor / DG about the status of the ICT requisition form a staff in his department has request.
                 if t.department=='GOV':
-                    subject2 = 'RBV Automated Forms'
+                    subject2 = 'ICT Requisition'
                     template2 = render_to_string('director_dss/email_template_approved_gov.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
                     email_from = settings.EMAIL_HOST_USER
                     recipient_list2 =[]
@@ -313,7 +323,7 @@ def dss_director_approval(request, id):
                 
                 #Notify FRD Director about the status of the ICT requisition form a staff in his department has request.
                 if t.department=='FRD':
-                    subject3 = 'RBV Automated Forms'
+                    subject3 = 'ICT Requisition'
                     template3 = render_to_string('director_dss/email_template_approved_frd.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
                     email_from = settings.EMAIL_HOST_USER
                     recipient_list3 =[]
@@ -322,7 +332,7 @@ def dss_director_approval(request, id):
                     send_mail( subject3, template3, email_from, recipient_list3,fail_silently=False)
                 
                 if t.department=='FMD':
-                    subject4 = 'RBV Automated Forms'
+                    subject4 = 'ICT Requisition'
                     template4 = render_to_string('director_dss/email_template_approved_fmd.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
                     email_from = settings.EMAIL_HOST_USER
                     recipient_list4 =[]
@@ -331,7 +341,7 @@ def dss_director_approval(request, id):
                     send_mail( subject4, template4, email_from, recipient_list4,fail_silently=False)
 
                 if t.department=='ERD':
-                    subject5 = 'RBV Automated Forms'
+                    subject5 = 'ICT Requisition'
                     template5 = render_to_string('director_dss/email_template_approved_erd.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
                     email_from = settings.EMAIL_HOST_USER
                     recipient_list5 =[]
@@ -341,7 +351,7 @@ def dss_director_approval(request, id):
                 
 
             if t.dss_dir_decision=='Disapproved':
-                subject = 'RBV Automated Forms'
+                subject = 'ICT Requisition'
                 template = render_to_string('director_dss/email_template_disapproved.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
                 email_from = settings.EMAIL_HOST_USER
                 recipient_list =[t.user.email]
@@ -350,7 +360,7 @@ def dss_director_approval(request, id):
                 
                 #Notify Governor / DG about the status of the ICT requisition form a staff in his department has request.
                 if t.department=='GOV':
-                    subject2 = 'RBV Automated Forms'
+                    subject2 = 'ICT Requisition'
                     template2 = render_to_string('director_dss/email_template_disapproved_gov.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
                     email_from = settings.EMAIL_HOST_USER
                     recipient_list2 =[]
@@ -360,7 +370,7 @@ def dss_director_approval(request, id):
                 
                 #Notify FRD Director about the status of the ICT requisition form a staff in his department has request.
                 if t.department=='FRD':
-                    subject3 = 'RBV Automated Forms'
+                    subject3 = 'ICT Requisition'
                     template3 = render_to_string('director_dss/email_template_disapproved_frd.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
                     email_from = settings.EMAIL_HOST_USER
                     recipient_list3 =[]
@@ -369,7 +379,7 @@ def dss_director_approval(request, id):
                     send_mail( subject3, template3, email_from, recipient_list3,fail_silently=False)
                 
                 if t.department=='FMD':
-                    subject4 = 'RBV Automated Forms'
+                    subject4 = 'ICT Requisition'
                     template4 = render_to_string('director_dss/email_template_disapproved_fmd.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
                     email_from = settings.EMAIL_HOST_USER
                     recipient_list4 =[]
@@ -378,7 +388,7 @@ def dss_director_approval(request, id):
                     send_mail( subject4, template4, email_from, recipient_list4,fail_silently=False)
 
                 if t.department=='ERD':
-                    subject5 = 'RBV Automated Forms'
+                    subject5 = 'ICT Requisition'
                     template5 = render_to_string('director_dss/email_template_disapproved_erd.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
                     email_from = settings.EMAIL_HOST_USER
                     recipient_list5 =[]
@@ -412,7 +422,7 @@ def fmd_director_approval(request, id):
 
             #Approved sent mail to the requestor
             if t.resp_dir_decision=='Approved':
-                subject = 'RBV Automated Forms'
+                subject = 'ICT Requisition'
                 template = render_to_string('director_fmd/email_template_approved.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
                 email_from = settings.EMAIL_HOST_USER
                 recipient_list =[t.user.email]
@@ -420,7 +430,7 @@ def fmd_director_approval(request, id):
 
             #Notify DSS Director about the new ICT Requisition Form Approved by FMD Director
 
-                subject1 = 'RBV Automated Forms'
+                subject1 = 'ICT Requisition'
                 template1 = render_to_string('director_dss/email_template_pending.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
                 email_from = settings.EMAIL_HOST_USER
                 recipient_list1 =[]
@@ -433,7 +443,7 @@ def fmd_director_approval(request, id):
 
             #Disapproved sent mail to the requestor
             if t.resp_dir_decision=='Disapproved':
-                subject = 'RBV Automated Forms'
+                subject = 'ICT Requisition'
                 template = render_to_string('director_fmd/email_template_disapproved.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
                 email_from = settings.EMAIL_HOST_USER
                 recipient_list =[t.user.email]
@@ -461,7 +471,7 @@ def frd_director_approval(request, id):
 
             #Approved sent mail to the requestor
             if t.resp_dir_decision=='Approved':
-                subject = 'RBV Automated Forms'
+                subject = 'ICT Requisition'
                 template = render_to_string('director_frd/email_template_approved.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
                 email_from = settings.EMAIL_HOST_USER
                 recipient_list =[t.user.email]
@@ -469,7 +479,7 @@ def frd_director_approval(request, id):
 
             #Notify DSS Director about the new ICT Requisition Form Approved by FRD Director
 
-                subject1 = 'RBV Automated Forms'
+                subject1 = 'ICT Requisition'
                 template1 = render_to_string('director_dss/email_template_pending.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
                 email_from = settings.EMAIL_HOST_USER
                 recipient_list1 =[]
@@ -480,7 +490,7 @@ def frd_director_approval(request, id):
             
             #Disapproved sent mail to the requestor
             if t.resp_dir_decision=='Disapproved':
-                subject = 'RBV Automated Forms'
+                subject = 'ICT Requisition'
                 template = render_to_string('director_frd/email_template_disapproved.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
                 email_from = settings.EMAIL_HOST_USER
                 recipient_list =[t.user.email]
@@ -509,7 +519,7 @@ def gov_approval(request, id):
             
             #Approved sent mail to the requestor
             if t.resp_dir_decision=='Approved':
-                subject = 'RBV Automated Forms'
+                subject = 'ICT Requisition'
                 template = render_to_string('gov/email_template_approved.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
                 email_from = settings.EMAIL_HOST_USER
                 recipient_list =[t.user.email]
@@ -517,7 +527,7 @@ def gov_approval(request, id):
 
             #Notify DSS Director about the new ICT Requisition Form Approved by the Gov or DG
 
-                subject = 'RBV Automated Forms'
+                subject = 'ICT Requisition'
                 template = render_to_string('director_dss/email_template_pending.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
                 email_from = settings.EMAIL_HOST_USER
                 recipient_list1 =[]
@@ -528,7 +538,7 @@ def gov_approval(request, id):
             
             #Disapproved sent mail to the requestor
             if t.resp_dir_decision=='Disapproved':
-                subject = 'RBV Automated Forms'
+                subject = 'ICT Requisition'
                 template = render_to_string('gov/email_template_disapproved.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
                 email_from = settings.EMAIL_HOST_USER
                 recipient_list =[t.user.email]
@@ -559,7 +569,7 @@ def erd_director_approval(request, id):
 
             #Approved sent mail to the requestor
             if t.resp_dir_decision=='Approved':
-                subject = 'RBV Automated Forms'
+                subject = 'ICT Requisition'
                 template = render_to_string('director_erd/email_template_approved.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
                 email_from = settings.EMAIL_HOST_USER
                 recipient_list =[t.user.email]
@@ -567,7 +577,7 @@ def erd_director_approval(request, id):
 
             #Notify DSS Director about the new ICT Requisition Form Approved by the Gov or DG
 
-                subject = 'RBV Automated Forms'
+                subject = 'ICT Requisition'
                 template = render_to_string('director_dss/email_template_pending.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
                 email_from = settings.EMAIL_HOST_USER
                 recipient_list1 =[]
@@ -578,7 +588,7 @@ def erd_director_approval(request, id):
             
             #Disapproved sent mail to the requestor
             if t.resp_dir_decision=='Disapproved':
-                subject = 'RBV Automated Forms'
+                subject = 'ICT Requisition'
                 template = render_to_string('director_erd/email_template_disapproved.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
                 email_from = settings.EMAIL_HOST_USER
                 recipient_list =[t.user.email]

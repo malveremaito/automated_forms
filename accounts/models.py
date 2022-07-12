@@ -28,6 +28,14 @@ class Role(models.Model):
         max_length=20,
         choices=[('ICT_Manager','ICT Manager'),('DSS_Director','DSS Director'),('FRD_Director','FRD Director'),('FMD_Director','FMD Director'),('ERD_Director','ERD Director'),('GOV','GOV'),('Staff','Staff')]
     )
+
+
+class Unit(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    unit = models.CharField(
+        max_length=20,
+        choices=[('ICT_Unit','ICT Unit')]
+    )
     
 # def __str__(self):
 #     return self.user.username
