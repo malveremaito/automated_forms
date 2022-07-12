@@ -34,7 +34,7 @@ class Unit(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     unit = models.CharField(
         max_length=20,
-        choices=[('ICT_Unit','ICT Unit')]
+        choices=[('ICT_Unit','ICT Unit'),('Director','Director')]
     )
     
 # def __str__(self):

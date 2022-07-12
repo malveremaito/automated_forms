@@ -26,8 +26,9 @@
 {% endif %}
     <!-- header -->
     <div class="card-header py-3 ">
+      <a href="{% url 'authorization' %}" class="btn btn-primary btn-sm float-right">Go Back <i class="fa fa-chevron-circle-left" aria-hidden="true"></i></a>
       <h6 class="m-0 font-weight-bold text-primary"><i class='fas fa-file-alt'></i> Requisition Form</h6>
-    
+      
       
     </div>
 
@@ -35,7 +36,7 @@
     <div class="card-body">
       <div class="col-md-auto">
         <label id="name-label" for="name" ><strong>REQ ID: </strong> {{data.id}}</label>
-        <a href="{% url 'authorization' %}" class="btn btn-primary btn-sm float-right">Go Back <i class="fa fa-chevron-circle-left" aria-hidden="true"></i></a>
+      
       </div>
       <div class="col-md-auto">
         <label > <strong>DATE & TIME LODGED:  </strong><p class="mb-2 bg-gradient-primary text-white"> {{data.created_at}} </p></label>

@@ -164,7 +164,7 @@ def ict_manager_approval(request, id):
 
                 #Notify ICT Team about the requisition when it has been approved
 
-                subject6 = 'ICT Requisition Test'
+                subject6 = 'ICT Requisition'
                 template6 = render_to_string('manager_ict/email_template_approved_ict.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
                 email_from = settings.EMAIL_HOST_USER
                 recipient_list6 =[]
@@ -704,8 +704,9 @@ def more_user_pdf(request,id):
 @login_required
 def approved(request):
 
-    if request.user.groups.filter(name='ICT_Unit'):
+    if request.user.unit.unit == "ICT_Unit":
         requisitionforms = ICTRequisitionForm.objects.filter(resp_dir_decision="Approved",dss_dir_decision="Approved",manager_ict_decision="Approved") 
         return render(request,"staff_ict/dashboard.html",{'requisitionforms':requisitionforms})
+    
     else:
         return render(request,"unathorized.html")
