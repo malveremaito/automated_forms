@@ -695,7 +695,7 @@ def more_approved_pdf(request,id):
         
 @login_required
 def more_user_pdf(request,id):
-   
+    
     data = ICTRequisitionForm.objects.get(id=id)
     
     return render(request, 'pdfview.html', {"data": data})
