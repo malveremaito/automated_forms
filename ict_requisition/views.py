@@ -686,11 +686,11 @@ def more_authorization_pdf(request,id):
 
 @login_required   
 def more_approved_pdf(request,id):
-   
-    data = ICTRequisitionForm.objects.get(id=id)
-    
-    return render(request, 'staff_ict/pdfview.html', {"data": data})
- 
+    if request.user.unit.unit == "ICT_Unit":
+        data = ICTRequisitionForm.objects.get(id=id)
+        return render(request, 'staff_ict/pdfview.html', {"data": data})
+    else:
+        return render(request,"unathorized.html")
 
         
 @login_required
