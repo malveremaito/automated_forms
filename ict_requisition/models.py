@@ -34,6 +34,7 @@ class ICTRequisitionForm(models.Model):
             default='Pending',
             choices=[('Approved','Approved'),('Disapproved','Disapproved'),('Pending','Pending')])
     manager_ict_comments = models.TextField(null=True, blank=True)
+    manager_ict_tasks_to_ICT_staffs = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(default=datetime.now())
     
     

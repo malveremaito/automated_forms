@@ -161,11 +161,18 @@
         
 
           <div class="col-md-auto">
-            <input type="text" id="manager_ict_comments" name="manager_ict_comments" placeholder="ICT Manager Comments"style="height:60; width:600px;" required>
+            <textarea type="text" class="form-control" id="manager_ict_comments" name="manager_ict_comments" placeholder="ICT Manager Comments" required></textarea>
           </div>  
-
-          <br>
+            <br>
           <div class="col-md-auto">
+            <label for="reason_for_request" class="form-label"><strong>ASSIGN TASK TO ICT STAFFS:</strong></label>
+            
+          </div> 
+          <div class="col-md-auto"> 
+            <textarea type="text" class="form-control" id="manager_ict_tasks_to_ICT_staffs" name="manager_ict_tasks_to_ICT_staffs"  placeholder="Assign Task to IT Staffs"></textarea>
+        </div> 
+          <br>
+          <div class="col-sm-3">
               <button type="submit" name="manager_ict_decision" value="Approved" class="btn btn-sm btn-success">Approve</button>
               <button type="submit" name="manager_ict_decision" value="Disapproved" class="btn btn-sm btn-danger">Disapprove</button>
             </div>
