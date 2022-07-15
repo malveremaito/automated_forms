@@ -143,7 +143,7 @@ def ict_manager_approval(request, id):
             t = ICTRequisitionForm.objects.get(id=id)
             t.manager_ict_decision = request.POST.get('manager_ict_decision')
             t.manager_ict_comments = request.POST.get('manager_ict_comments')
-            t.manager_ict_tasks_to_ICT_staffs = request.POST.get('manager_ict_tasks_to_ICT_staffs')
+            t.manager_ict_tasks_to_ICT_staffs = request.POST.get('manager_ict_decision')
             t.save() 
 
             #if Approved notify the requestor
@@ -165,14 +165,14 @@ def ict_manager_approval(request, id):
 
                 #Notify ICT Team about the requisition when it has been approved
 
-                subject6 = 'ICT Requisition'
-                template6 = render_to_string('manager_ict/email_template_approved_ict.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
-                email_from = settings.EMAIL_HOST_USER
-                recipient_list6 =[]
-                for unit in Unit.objects.filter(unit='ICT_Unit'):
-                    recipient_list6.append(unit.user.email)
+                # subject6 = 'ICT Requisition'
+                # template6 = render_to_string('manager_ict/email_template_approved_ict.html',{'firstname':t.user.first_name,'lastname':t.user.last_name})
+                # email_from = settings.EMAIL_HOST_USER
+                # recipient_list6 =[]
+                # for unit in Unit.objects.filter(unit='ICT_Unit'):
+                #     recipient_list6.append(unit.user.email)
 
-                send_mail( subject6, template6, email_from, recipient_list6,fail_silently=False)
+                # send_mail( subject6, template6, email_from, recipient_list6,fail_silently=False)
 
                 #Notify GOV Director about the status of the ICT requisition form a staff in his department has request.
                 if t.department=='GOV':
@@ -686,16 +686,16 @@ def more_authorization_pdf(request,id):
 
 @login_required   
 def more_approved_pdf(request,id):
-    if request.user.unit.unit == "ICT_Unit":
-        data = ICTRequisitionForm.objects.get(id=id)
-        return render(request, 'staff_ict/pdfview.html', {"data": data})
-    else:
-        return render(request,"unathorized.html")
+   
+    data = ICTRequisitionForm.objects.get(id=id)
+    
+    return render(request, 'staff_ict/pdfview.html', {"data": data})
+ 
 
         
 @login_required
 def more_user_pdf(request,id):
-    
+   
     data = ICTRequisitionForm.objects.get(id=id)
     
     return render(request, 'pdfview.html', {"data": data})
