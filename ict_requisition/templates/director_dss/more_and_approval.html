@@ -26,16 +26,21 @@
 {% endif %}
     <!-- header -->
     <div class="card-header py-3 ">
+      <a href="{% url 'authorization' %}" class="btn btn-primary btn-sm float-right">Go Back <i class="fa fa-chevron-circle-left" aria-hidden="true"></i></a>
       <h6 class="m-0 font-weight-bold text-primary"><i class='fas fa-file-alt'></i> Requisition Form</h6>
-    
+      
       
     </div>
 
      <!-- Form Body start -->
     <div class="card-body">
       <div class="col-md-auto">
+        <label id="name-label" for="name" ><strong>REQ ID: </strong> {{data.id}}</label>
+      
+      </div>
+      <div class="col-md-auto">
         <label > <strong>DATE & TIME LODGED:  </strong><p class="mb-2 bg-gradient-primary text-white"> {{data.created_at}} </p></label>
-        <a href="{% url 'approvals' %}" class="btn btn-primary btn-sm float-right">Go Back <i class="fa fa-chevron-circle-left" aria-hidden="true"></i></a>
+       
       </div>
 
         <div class="col-md-auto row-md-auto">
@@ -53,7 +58,8 @@
            
               {{data.department}}
             
-              <div class=" float-right bg-secondary text-white">
+        
+              <div class="">
  
          
                 <label for="start_date"><strong>START DATE: </strong></label> 
@@ -67,26 +73,32 @@
                 <label for="end_time"><strong>END TIME: </strong></label> 
                 {{data.end_time}}
               </div>
-              </div>
+        </div>
     
        
-              
-        <div class="col-md-auto float-right">
-          <label for="reason_for_request" class="form-label"><strong>ICT Manager DECISION:</strong></label>
+         
+        <div class="row-md-auto col-md-auto  ">
+         
+       
+    
+        
+       
+     
           
-          {% if data.manager_ict_decision == "Pending" %}
+        
+    
+        
+          <label for="reason_for_request" class="form-label"><strong>{{  data.department }} DIR DECISION:</strong></label>
+          
+          {% if data.resp_dir_decision == "Pending" %}
                             <span class="badge badge-warning">Pending</span>
-          {% elif data.manager_ict_decision == "Disapproved" %}
+          {% elif data.resp_dir_decision == "Disapproved" %}
                             <span class="badge badge-danger">Disapproved</span>   
-          {% elif data.manager_ict_decision == "Approved" %}
+          {% elif data.resp_dir_decision == "Approved" %}
                             <span class="badge badge-success">Approved</span>               
           {% endif %}
-          
-        </div>
-          
-       
 
-        <div class="col-md-auto float-right">
+
           <label for="reason_for_request" class="form-label"><strong>DSS DIR DECISION:</strong></label>
           
           {% if data.dss_dir_decision == "Pending" %}
@@ -96,19 +108,17 @@
           {% elif data.dss_dir_decision == "Approved" %}
                             <span class="badge badge-success">Approved</span>               
           {% endif %}
-          
-        </div>
 
-        <div class="col-md-auto float-right">
-          <label for="reason_for_request" class="form-label"><strong>RESPECTIVE DIR DECISION:</strong></label>
+          <label for="reason_for_request" class="form-label" ><strong>ICT MANAGER DECISION:</strong></label>
           
-          {% if data.resp_dir_decision == "Pending" %}
+          {% if data.manager_ict_decision == "Pending" %}
                             <span class="badge badge-warning">Pending</span>
-          {% elif data.resp_dir_decision == "Disapproved" %}
+          {% elif data.manager_ict_decision == "Disapproved" %}
                             <span class="badge badge-danger">Disapproved</span>   
-          {% elif data.resp_dir_decision == "Approved" %}
+          {% elif data.manager_ict_decision == "Approved" %}
                             <span class="badge badge-success">Approved</span>               
           {% endif %}
+          
           
         </div>
 
@@ -136,13 +146,16 @@
 
      
         
-        <div class="col-md-auto">
-          <label for="reason_for_request" class="form-label"><strong>RESPECTIVE DIR :</strong></label>
-          <i> {{data.resp_dir_comments}}</i>
-        </div>
+        
 
         <div class="col-md-auto">
-          <label for="reason_for_request" class="form-label"><strong>ICT MANAGER COMMENTS :</strong></label>
+          <label for="reason_for_request" class="form-label"><strong>DSS DIR COMMENTS:</strong></label>
+          <i> {{data.dss_director_comments}}</i>
+        </div>
+
+        
+        <div class="col-md-auto">
+          <label for="reason_for_request" class="form-label"><strong>ICT MANAGER COMMENTS:</strong></label>
           <i> {{data.manager_ict_comments}}</i>
         </div>
       
@@ -155,7 +168,7 @@
           </div>
 
           <div class="col-md-auto">
-            <input type="text" id="dss_director_comments" name="dss_director_comments" placeholder="Respective | DSS Director's Comment"style="height:60; width:600px;" required>
+            <textarea type="text" class="form-control" id="dss_director_comments" name="dss_director_comments" placeholder="Respective | DSS Director's Comment" required></textarea>
           </div>  
 
           <br>

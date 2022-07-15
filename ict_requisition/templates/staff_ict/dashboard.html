@@ -1,0 +1,104 @@
+{% extends 'base_layout.html' %}
+{% block content %}
+{% load static %}
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ 
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css"></>
+
+   
+</head>
+
+<title>ICT Requisition | Approved</title>
+
+
+{% if messages %}
+{% for message in messages %}
+    <div class="alert alert-{{ message.tags }} " role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span></button>  
+    </div>
+{% endfor %}    
+{% endif %}
+    
+    <div class="card shadow mb-4">    
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary"><i class='fa fa-check-square-o'></i> ICT Unit | Feed</h6>
+        </div>  
+
+        <div class="card-body">        
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th width="10%">Date</th>
+                            <th width="7.5%">User</th>
+                            <th width="20%">Service Requested</th>
+                            <th width="20%">Reason</th>
+                            <th width="5%">Action </th>
+                            <th width="5%">Status </th>
+                            
+                        </tr>
+                                
+                    </thead>
+                                
+                                    
+                    <tbody>
+                                    
+                        {% for requisitionform in requisitionforms %}
+                                    
+                        <tr>
+                             <td>{{requisitionform.created_at}} </td> 
+                            <td>{{requisitionform.user}} </td>    
+                            <td>{{requisitionform.service_requested}} | {{requisitionform.other_service}}| {{requisitionform.reason_for_request}} </td>    
+                            <td>{{requisitionform.reason_for_request}} </td>
+                            <td>  
+                                  
+                                <a href="{% url 'more-approved-pdf' requisitionform.id %}" class="btn btn-white btn-sm"> <i class="fa fa-info-circle " aria-hidden="true"></i></a>                            
+                            </td>
+                            <td>
+                               
+                                {% if requisitionform.manager_ict_decision == "Approved"  %}
+                                    <span class="badge badge-success">Approved</span>
+                                {% elif requisitionform.manager_ict_decision == "Disapproved"  %}
+                                    <span class="badge badge-danger">Disapproved</span>
+                                {% else %}
+                                    <span class="badge badge-warning">Pending</span>
+                                {% endif %}
+                            </td>
+                        
+                            
+                        {% endfor %}
+                        </tr>
+                    </tbody>
+            
+                </table>
+            </div> 
+        </div>
+    </div>  
+  
+    
+
+              
+                   
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script> 
+<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>                                                      
+<script>
+    $(document).ready(function() {
+        $('#dataTable').DataTable();
+        });
+        $('.building-link').click(function(){
+            $('#building-name').html($(this).data('name'));
+            $('#building-description').html($(this).data('description'));
+            $('#building-img').src($(this).data('img'));
+        });
+</script>
+{% endblock %}

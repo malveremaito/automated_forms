@@ -16,7 +16,7 @@
    
 </head>
 
-<title>ICT Requisition | Approval</title>
+<title>ICT Requisition | Authorization</title>
 
 
     {% if messages %}
@@ -30,7 +30,7 @@
     
     <div class="card shadow mb-4">    
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary"><i class='fa fa-check-square-o'></i>Director Approval | Feed</h6>
+            <h6 class="m-0 font-weight-bold text-primary"><i class='fa fa-check-square-o'></i>Director Authorization | Feed</h6>
         </div>  
 
         <div class="card-body">        
@@ -61,7 +61,9 @@
                            
                             <td>{{requisitionform.service_requested}} | {{requisitionform.other_service}} </td>  
                             <td>{{requisitionform.reason_for_request}}</td>  
-                            <td><a href="{% url 'erd-director-approval' requisitionform.id %}" class="btn btn-primary btn-sm">More <i class="fa fa-eye" aria-hidden="true"></i></a>
+                            <td><a href="{% url 'erd-director-approval' requisitionform.id %}" class="btn btn-white btn-sm"><i class="fa fa fa-sliders" aria-hidden="true"></i></a>
+                                <a href="{% url 'more-authorization-pdf' requisitionform.id %}" class="btn btn-white btn-sm"> <i class="fa fa-print" aria-hidden="true"></i></a>                            
+
                             </td>
                             <td>
                                
