@@ -1,8 +1,8 @@
 from django.contrib import admin
-from accounts.models import Department, Role
+from accounts.models import Department, Role, Unit
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
-
+from import_export.admin import ExportActionMixin
 
 # Register your models here.
 
@@ -23,14 +23,25 @@ class DepartmentAdmin(admin.ModelAdmin):
     fieldsets = ()
 
 
+class UnitAdmin(admin.ModelAdmin):
+    list_display = ('user', 'unit')
+    search_fields = ['user__username', 'user__first_name', 'user__last_name', 'unit', ]
+    filter_horizontal = ()
+    list_filter = ()
+    fieldsets = ()
+
+
 admin.site.register(Department, DepartmentAdmin)
-
-
+admin.site.register(Unit, UnitAdmin)
 admin.site.register(Role, RoleAdmin)
 
 
-class AccountInLine(admin.StackedInline):
+class Departments(admin.StackedInline):
     model = Department
+    can_delete = False
+
+class Units(admin.StackedInline):
+    model = Unit
     can_delete = False
 
 
@@ -39,12 +50,12 @@ class Roles(admin.StackedInline):
     can_delete = False
 
 
-class CustomizedUserAdmin (UserAdmin):
-    inlines = (AccountInLine, Roles, )
+class CustomizedUserAdmin (ExportActionMixin,UserAdmin):
+    inlines = (Departments, Roles,Units, )
 
 
 admin.site.unregister(User)
-
-
 admin.site.register(User, CustomizedUserAdmin)
+
+
 

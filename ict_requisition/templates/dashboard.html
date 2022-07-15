@@ -30,7 +30,7 @@
     <!-- Earnings (Monthly) Card Example -->
 
     <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card text-white bg-success mb-3">
+        <div class="card text-white bg-info mb-3">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
@@ -56,7 +56,7 @@
        
     <!-- Earnings (Monthly) Card Example -->
     <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card text-white bg-warning mb-3">
+        <div class="card text-white bg-success mb-3">
             <div class="card-body">              
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
@@ -79,62 +79,40 @@
     <!-- Earnings (Monthly) Card Example -->
 
     <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-info shadow h-100 py-2">
-            <div class="card-body">
+        <div class="card text-white bg-warning mb-3">
+            <div class="card-body">              
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Pending Request</div>
-                        <div class="row no-gutters align-items-center">
-                            <div class="col-auto">
-                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                            </div>
-                            <div class="col">
-                                <div class="progress progress-sm mr-2">
-                                    <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-
-                                 
-                            </div>
-                                 
-                        </div>
-                                
+                        <div class="text-xs font-weight-bold text-black text-uppercase mb-1">Pending Request</div>
+                
+                        <div class="h5 mb-0 font-weight-bold text-black">{{pendingrequests}}</div>
                     </div>
-                            
-                    <div class="col-auto">   
-                        <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                        
+                
+                    <div class="col-auto">
+                        <i class="fas fa fa-spinner fa-4x text-black"></i>
                     </div>
-                            
                 </div>
-                        
-            </div>
-                    
+            </div> 
         </div>
-              
     </div>
         
     <!-- Pending Requests Card Example -->
     <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-warning shadow h-100 py-2">
-            <div class="card-body">
+        <div class="card text-white bg-danger mb-3">
+            <div class="card-body">              
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Disapproved Requests</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-            
+                        <div class="text-xs font-weight-bold text-black text-uppercase mb-1">Disapproved Request</div>
+                
+                        <div class="h5 mb-0 font-weight-bold text-black">{{disapprovedrequest}}</div>
                     </div>
-                    
+                
                     <div class="col-auto">
-                        <i class="fas fa-comments fa-2x text-gray-300"></i>
-            
+                        <i class="fas fa-close fa-x fa-4x text-black"></i>
                     </div>
-            
                 </div>
-            
-            </div>
-            
+            </div> 
         </div>
-            
     </div>
 
 </div>          
@@ -178,7 +156,7 @@
                            
                             <td>{{requisitionform.service_requested}} | {{requisitionform.other_service}} </td>    
                             <td>{{requisitionform.reason_for_request}} </td>  
-                            <td><a href="{% url 'more' requisitionform.id %}" class="btn btn-primary btn-sm">More <i class="fa fa-eye" aria-hidden="true"></i></a></td>
+                            <td><a href="{% url 'more-user-pdf' requisitionform.id %}" class="btn btn-white btn-sm"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>  <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button></td>
                             <td>
                                 {% if requisitionform.resp_dir_decision == "Pending" %}
                                     <span class="badge badge-warning">Pending</span>

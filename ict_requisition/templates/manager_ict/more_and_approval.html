@@ -8,7 +8,7 @@
 
 <html class="no-js" lang="en">
 <head>
-  <title>ICT Requisition | Approval | More</title>
+  <title>ICT Requisition | Authorization | More</title>
 </head>
 <body>
 
@@ -27,18 +27,17 @@
 {% endif %}
     <!-- header -->
     <div class="card-header py-3 ">
+      <a href="{% url 'authorization' %}" class="btn btn-primary btn-sm float-right">Go Back <i class="fa fa-chevron-circle-left" aria-hidden="true"></i></a>
       <h6 class="m-0 font-weight-bold text-primary"><i class='fas fa-file-alt'></i> Requisition Form</h6>
-    
-      
-
-    
     </div>
 
-     <!-- Form Body start -->
     <div class="card-body">
       <div class="col-md-auto">
+        <label id="name-label" for="name" ><strong>REQ ID: </strong> {{data.id}}</label>
+      </div>
+      <div class="col-md-auto">
         <label > <strong>DATE & TIME LODGED:  </strong><p class="mb-2 bg-gradient-primary text-white"> {{data.created_at}} </p></label>
-        <a href="{% url 'approvals' %}" class="btn btn-primary btn-sm float-right">Go Back <i class="fa fa-chevron-circle-left" aria-hidden="true"></i></a>
+       
       </div>
 
         <div class="col-md-auto row-md-auto">
@@ -57,7 +56,7 @@
               {{data.department}}
             
         
-              <div class=" float-right bg-secondary text-white">
+              <div class="">
  
          
                 <label for="start_date"><strong>START DATE: </strong></label> 
@@ -72,35 +71,20 @@
                 {{data.end_time}}
               </div>
         </div>
-
-        <div class="col-md-auto float-right">
-          <label for="reason_for_request" class="form-label"><strong>ICT MANAGER DECISION:</strong></label>
-          
-          {% if data.manager_ict_decision == "Pending" %}
-                            <span class="badge badge-warning">Pending</span>
-          {% elif data.manager_ict_decision == "Disapproved" %}
-                            <span class="badge badge-danger">Disapproved</span>   
-          {% elif data.manager_ict_decision == "Approved" %}
-                            <span class="badge badge-success">Approved</span>               
-          {% endif %}
-          
-        </div>
     
-
-        <div class="col-md-auto float-right">
-          <label for="reason_for_request" class="form-label"><strong>DSS DIR DECISION:</strong></label>
+       
+         
+        <div class="row-md-auto col-md-auto  ">
+         
+       
+    
+        
+       
+     
           
-          {% if data.dss_dir_decision == "Pending" %}
-                            <span class="badge badge-warning">Pending</span>
-          {% elif data.dss_dir_decision == "Disapproved" %}
-                            <span class="badge badge-danger">Disapproved</span>   
-          {% elif data.dss_dir_decision == "Approved" %}
-                            <span class="badge badge-success">Approved</span>               
-          {% endif %}
-          
-        </div>
-
-        <div class="col-md-auto float-right">
+        
+    
+        
           <label for="reason_for_request" class="form-label"><strong>{{  data.department }} DIR DECISION:</strong></label>
           
           {% if data.resp_dir_decision == "Pending" %}
@@ -110,6 +94,28 @@
           {% elif data.resp_dir_decision == "Approved" %}
                             <span class="badge badge-success">Approved</span>               
           {% endif %}
+
+
+          <label for="reason_for_request" class="form-label"><strong>DSS DIR DECISION:</strong></label>
+          
+          {% if data.dss_dir_decision == "Pending" %}
+                            <span class="badge badge-warning">Pending</span>
+          {% elif data.dss_dir_decision == "Disapproved" %}
+                            <span class="badge badge-danger">Disapproved</span>   
+          {% elif data.dss_dir_decision == "Approved" %}
+                            <span class="badge badge-success">Approved</span>               
+          {% endif %}
+
+          <label for="reason_for_request" class="form-label" ><strong>ICT MANAGER DECISION:</strong></label>
+          
+          {% if data.manager_ict_decision == "Pending" %}
+                            <span class="badge badge-warning">Pending</span>
+          {% elif data.manager_ict_decision == "Disapproved" %}
+                            <span class="badge badge-danger">Disapproved</span>   
+          {% elif data.manager_ict_decision == "Approved" %}
+                            <span class="badge badge-success">Approved</span>               
+          {% endif %}
+          
           
         </div>
 
@@ -137,30 +143,36 @@
 
      
         
-        <div class="col-md-auto">
-          <label for="reason_for_request" class="form-label"><strong>RESPECTIVE DIR :</strong></label>
-          <i> {{data.resp_dir_comments}}</i>
-        </div>
+        
 
         <div class="col-md-auto">
           <label for="reason_for_request" class="form-label"><strong>DSS DIR COMMENTS:</strong></label>
           <i> {{data.dss_director_comments}}</i>
         </div>
-      
+
         
+        <div class="col-md-auto">
+          <label for="reason_for_request" class="form-label"><strong>ICT MANAGER COMMENTS:</strong></label>
+          <i> {{data.manager_ict_comments}}</i>
+        </div>
+     
         <form id="form" method="POST" action = "">
           {% csrf_token %}
-          <div class="col-md-auto">
-            <label for="reason_for_request" class="form-label"><strong>ICT MANAGER COMMENTS:</strong></label>
-            <i> {{data.manager_ict_comments}}</i>
-          </div>
+        
 
           <div class="col-md-auto">
-            <input type="text" id="manager_ict_comments" name="manager_ict_comments" placeholder="ICT Manager Comments"style="height:60; width:600px;" required>
+            <textarea type="text" class="form-control" id="manager_ict_comments" name="manager_ict_comments" placeholder="ICT Manager Comments" required></textarea>
           </div>  
-
-          <br>
+            <br>
           <div class="col-md-auto">
+            <label for="reason_for_request" class="form-label"><strong>ASSIGN TASK TO ICT STAFFS:</strong></label>
+            
+          </div> 
+          <div class="col-md-auto"> 
+            <textarea type="text" class="form-control" id="manager_ict_tasks_to_ICT_staffs" name="manager_ict_tasks_to_ICT_staffs"  placeholder="Assign Task to IT Staffs"></textarea>
+        </div> 
+          <br>
+          <div class="col-sm-3">
               <button type="submit" name="manager_ict_decision" value="Approved" class="btn btn-sm btn-success">Approve</button>
               <button type="submit" name="manager_ict_decision" value="Disapproved" class="btn btn-sm btn-danger">Disapprove</button>
             </div>
@@ -170,8 +182,10 @@
     </div>
   </div>
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
 
 <script src="{% static 'css/js/sweetalert.min.js' %}"></script>
 <script>
@@ -187,6 +201,7 @@ $(document).ready(function(){
    });
 });
   
+
 </script>
 </html>
 {% endblock %}
