@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-*d0evx_fnxyidp(bn)h@+e!06cxu#dcuetvatk39l0w%!(y6-t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['10.0.150.32', 'localhost', '127.0.0.1','0.0.0.0','rbvautomatedforms:8002']
+ALLOWED_HOSTS = ['10.0.150.32', 'localhost', '127.0.0.1','0.0.0.0','rbvautomatedforms']
 
 
 # Application definition
