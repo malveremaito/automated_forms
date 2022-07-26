@@ -10,18 +10,25 @@ from datetime import datetime
 
 
 class AfterHoursForm(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    form_name = models.CharField(max_length=20,
+    User = models.ForeignKey(User, on_delete=models.CASCADE)
+    Form_name = models.CharField(max_length=20,
         default='After Hours Form',choices=[('After Hours Form','After Hours Form')]
         )
-    department = models.CharField( max_length=6)
-    start_date = models.DateField()
-    end_date = models.TextField(null=True, blank=True)
-    start_time = models.TimeField()
-    end_time = models.TextField(null=True,blank=True)
-    service_requested = models.TextField()
-    other_service = models.TextField(blank=True)
+    Department = models.CharField( max_length=6)
+    Unit_OR_Section = models.TextField(null=True,blank=True)
+    Purpose = models.TextField(null=True,blank=True)
+    Purpose_Reason = models.TextField(null=True,blank=True)
+    IT_Services = models.TextField()
+    Start_date = models.DateField()
+    End_date = models.TextField()
+    Start_time = models.TimeField()
+    End_time = models.TextField()
     reason_for_request = models.TextField()
+    Access_and_Network_Decission= models.CharField(
+        max_length=11,
+        default='Pending',
+        choices=[('Approved','Approved'),('Disapproved','Disapproved'),('Pending','Pending')]
+    )
     resp_dir_decision= models.CharField(
         max_length=11,
         default='Pending',
