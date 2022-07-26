@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'ict_requisition',
     'accounts.apps.AccountsConfig',
     'import_export',
+    'afterhours',
 ]
 
 MIDDLEWARE = [
