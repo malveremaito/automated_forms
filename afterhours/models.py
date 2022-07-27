@@ -34,7 +34,6 @@ class AfterHoursForm(models.Model):
         default='Pending',
         choices=[('Approved','Approved'),('Disapproved','Disapproved'),('Pending','Pending')]
     )
-    resp_dir_comments = models.TextField(null=True, blank=True)
     dss_dir_decision = models.CharField(
             max_length=11,
             default='Pending',
